@@ -1,0 +1,66 @@
+name: Deploy to GitHub Pages
+
+# Deploys automatically whenever main is updated (i.e. after a PR is merged).
+# There is no manual "build" step for this project — the repo IS the site —
+# but we still re-run the full verification suite here as a last safety gate
+# so a bad merge can never reach production even if branch protection was
+# somehow bypassed.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {} # allows a manual re-deploy from the Actions tab if ever needed
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify before deploying
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: bash scripts/verify.sh
+
+  deploy:
+    name: Publish to GitHub Pages
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build public site folder
+        # Copies only what should actually be served — not .git, workflows,
+        # scripts, or dev tooling like package.json / node_modules. Add any
+        # new asset folders (images, css, js, fonts, etc.) to the loop below
+        # so they get published automatically.
+        run: |
+          mkdir _site
+          cp ./*.html _site/
+          for d in assets images img css js fonts; do
+            if [ -d "$d" ]; then cp -r "$d" _site/; fi
+          done
+          echo "Publishing:"
+          find _site -type f
+
+      - name: Upload site as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

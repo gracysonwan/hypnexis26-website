@@ -1,0 +1,12 @@
+{
+  "name": "hypnexis26-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HYPNEXIS '26 hackathon website (static HTML, no build step).",
+  "scripts": {
+    "verify": "bash scripts/verify.sh"
+  },
+  "devDependencies": {
+    "html-validate": "^11.8.0"
+  }
+}
