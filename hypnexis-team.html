@@ -34,7 +34,7 @@ body{
 .nlink{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;color:rgba(200,225,255,.8);text-decoration:none;text-transform:uppercase;transition:color .3s;}
 .nlink:hover{color:#fff;}
 .nlink.active{color:#88ccff;}
-.nav-logo{height:30px;width:auto;display:block;filter:invert(1) drop-shadow(0 0 10px rgba(80,160,255,.7));}
+.nav-logo{height:44px;width:auto;display:block;filter:invert(1) drop-shadow(0 0 10px rgba(80,160,255,.7));}
 .nreg{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;padding:10px 24px;border:1px solid rgba(120,170,255,.55);color:#e0eeff;background:rgba(15,45,180,.4);backdrop-filter:blur(10px);cursor:pointer;text-decoration:none;text-transform:uppercase;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:all .3s;}
 .nreg:hover{background:rgba(40,100,255,.6);border-color:rgba(160,210,255,.9);box-shadow:0 0 22px rgba(60,120,255,.5);color:#fff;}
 
@@ -50,12 +50,12 @@ body{
 .grouplabel{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.32em;color:rgba(180,215,255,.8);text-transform:uppercase;margin:64px 0 28px;text-align:left;}
 
 /* TEAM CARDS — reuses .tc (domain card) treatment: same bg, border, blur, hover glow */
-.tmgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-.tmc{background:rgba(8,22,72,.5);backdrop-filter:blur(12px);padding:26px 22px;text-align:center;border:1px solid rgba(80,140,255,.25);transition:border-color .3s,box-shadow .3s;position:relative;overflow:hidden;}
+.tmgrid{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;}
+.tmc{background:rgba(8,22,72,.5);backdrop-filter:blur(12px);padding:26px 22px;text-align:center;border:1px solid rgba(80,140,255,.25);transition:border-color .3s,box-shadow .3s;position:relative;overflow:hidden;flex:1 1 260px;max-width:300px;}
 .tmc:hover{border-color:rgba(130,200,255,.6);box-shadow:0 0 36px rgba(60,130,255,.2);}
-.tmph{width:84px;height:84px;border-radius:50%;margin:0 auto 18px;border:1.5px solid rgba(120,180,255,.5);background:rgba(15,40,140,.5);display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Orbitron',monospace;font-weight:900;font-size:18px;color:rgba(190,220,255,.85);}
+.tmph{width:96px;height:96px;border-radius:50%;margin:0 auto 18px;border:1.5px solid rgba(120,180,255,.5);background:rgba(15,40,140,.5);display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Orbitron',monospace;font-weight:900;font-size:20px;color:rgba(190,220,255,.85);}
 .tmph img{width:100%;height:100%;object-fit:cover;display:block;}
-.tmname{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:.04em;}
+.tmname{font-family:'Orbitron',monospace;font-size:19px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:.04em;}
 .tmrole{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;color:#88ccff;text-transform:uppercase;margin-bottom:4px;}
 .tmdept{font-size:11px;color:rgba(200,225,255,.7);}
 
@@ -73,10 +73,11 @@ footer a:hover{color:#fff;}
 @media(max-width:768px){
   #nav{padding:16px 18px;}
   .nlinks{gap:14px;}
-  .nav-logo{height:24px;}
+  .nav-logo{height:32px;}
   .sec{padding:120px 0 70px;}
   .sec-inner{padding:0 22px;}
-  .tmgrid{grid-template-columns:1fr;}
+  .tmgrid{flex-direction:column;align-items:center;}
+  .tmc{max-width:340px;width:100%;}
   .grouplabel{text-align:center;}
   footer{flex-direction:column;gap:10px;text-align:center;}
 }

@@ -33,7 +33,7 @@ html,body{width:100%;overflow-x:hidden;background:#020c28;color:#fff;font-family
 .ldr-box{position:relative;z-index:1;width:52px;height:52px;border:1.5px solid rgba(130,190,255,.7);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-weight:900;font-size:17px;background:rgba(10,30,140,.55);backdrop-filter:blur(6px);color:#fff;animation:ldrpulse 1.8s ease-in-out infinite;}
 @keyframes ldrpulse{0%,100%{box-shadow:0 0 22px rgba(60,130,255,.35);}50%{box-shadow:0 0 36px rgba(90,165,255,.65);}}
 .ldr-name{font-family:'Orbitron',monospace;font-weight:900;font-size:15px;letter-spacing:.12em;color:#fff;text-shadow:0 0 22px rgba(80,160,255,.6);margin-bottom:8px;opacity:0;transform:translateY(6px);animation:ldrfade .6s ease forwards .15s;}
-.ldr-logo{display:block;width:150px;max-width:60vw;height:auto;margin:0 auto 8px;filter:invert(1) drop-shadow(0 0 16px rgba(80,160,255,.65));opacity:0;transform:translateY(6px);animation:ldrfade .6s ease forwards .15s;}
+.ldr-logo{display:block;width:220px;max-width:70vw;height:auto;margin:0 auto 8px;filter:invert(1) drop-shadow(0 0 16px rgba(80,160,255,.65));opacity:0;transform:translateY(6px);animation:ldrfade .6s ease forwards .15s;}
 .ldr-yr{font-size:.6em;opacity:.65;margin-left:3px;color:rgba(160,210,255,.9);}
 .ldr-sub{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.34em;color:rgba(150,195,255,.55);text-transform:uppercase;margin-bottom:26px;opacity:0;transform:translateY(6px);animation:ldrfade .6s ease forwards .3s;}
 @keyframes ldrfade{to{opacity:1;transform:translateY(0);}}
@@ -53,7 +53,7 @@ html,body{width:100%;overflow-x:hidden;background:#020c28;color:#fff;font-family
 #nav.show{opacity:1;transform:translateY(0);}
 .nbrand{display:flex;align-items:center;gap:10px;cursor:pointer;font-family:'Orbitron',monospace;font-size:15px;font-weight:900;letter-spacing:.06em;color:#fff;text-shadow:0 0 24px rgba(80,160,255,.8);}
 .nbox{width:34px;height:34px;border:1.5px solid rgba(120,180,255,.6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;background:rgba(10,30,140,.6);backdrop-filter:blur(8px);color:#fff;}
-.nav-logo{height:30px;width:auto;display:block;filter:invert(1) drop-shadow(0 0 10px rgba(80,160,255,.7));}
+.nav-logo{height:44px;width:auto;display:block;filter:invert(1) drop-shadow(0 0 10px rgba(80,160,255,.7));}
 .nyr{font-size:.62em;opacity:.65;margin-left:3px;color:rgba(160,210,255,.9);}
 .nreg{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;padding:10px 24px;border:1px solid rgba(120,170,255,.55);color:#e0eeff;background:rgba(15,45,180,.4);backdrop-filter:blur(10px);cursor:pointer;text-decoration:none;text-transform:uppercase;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:all .3s;}
 .nreg:hover{background:rgba(40,100,255,.6);border-color:rgba(160,210,255,.9);box-shadow:0 0 22px rgba(60,120,255,.5);color:#fff;}
@@ -171,7 +171,7 @@ footer a:hover{color:#fff;}
 @media(max-width:768px){
   #nav{padding:16px 18px;}
   .nlinks{gap:14px;}
-  .nav-logo{height:24px;}
+  .nav-logo{height:32px;}
   .stats{flex-wrap:wrap;}.stat{flex:1 1 40%;border-right:none;border-bottom:1px solid rgba(120,180,255,.12);}
   .agrid,.tgrid{grid-template-columns:1fr;}
   .agrid.agrid-2{grid-template-columns:1fr;max-width:none;}
@@ -381,7 +381,6 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
    CURSOR
 ==================================================== */
 var CUR=document.getElementById('cur'),CUR2=document.getElementById('cur2');
-var SKIP_INTRO=false; /* true when the loader is skipped on a repeat visit — read by buildNexus/buildRings below so their entrance animations don't play out on-screen when there's no loader hiding them */
 var cmx=window.innerWidth/2,cmy=window.innerHeight/2;
 var ccx=cmx,ccy=cmy,crx=cmx,cry=cmy;
 document.addEventListener('mousemove',function(e){
@@ -436,7 +435,6 @@ function debounce(fn,ms){
 
   if(alreadyVisited){
     loader.classList.add('gone');
-    SKIP_INTRO=true;
     startSite();
     return;
   }
@@ -642,26 +640,19 @@ function buildNexus(){
   hg.setAttribute('color',new THREE.BufferAttribute(hcol,3));
   nexus.add(new THREE.Points(hg,new THREE.PointsMaterial({size:0.014,vertexColors:true,transparent:true,opacity:0.65,sizeAttenuation:true})));
 
-  nexus.scale.setScalar(SKIP_INTRO?1:0);
+  nexus.scale.setScalar(1);
   scene.add(nexus);
-  if(SKIP_INTRO){
-    setTimeout(startAssembleCycle,3800);
-  }else{
-    setTimeout(function(){gsap.to(nexus.scale,{x:1,y:1,z:1,duration:2.5,ease:'elastic.out(1,0.5)',delay:0.3});},100);
-    setTimeout(startAssembleCycle,3800);
-  }
+  gsap.fromTo(nexus.scale,{x:0.72,y:0.72,z:0.72},{x:1,y:1,z:1,duration:1.6,ease:'elastic.out(1,0.5)',delay:0.1});
+  setTimeout(startAssembleCycle,3800);
 }
 
 function buildRings(){
   var cfgs=[[2.5,0.007,0x2255ff,0.8,0.38,0.12],[3.1,0.005,0x1144ee,0.5,1.05,0.58],[2.1,0.005,0x3366ff,0.45,0.72,1.1],[3.7,0.003,0x1133cc,0.2,0,0]];
   cfgs.forEach(function(c,i){
-    var m=new THREE.Mesh(new THREE.TorusGeometry(c[0],c[1],8,128),new THREE.MeshBasicMaterial({color:c[2],transparent:true,opacity:SKIP_INTRO?c[3]:0}));
+    var m=new THREE.Mesh(new THREE.TorusGeometry(c[0],c[1],8,128),new THREE.MeshBasicMaterial({color:c[2],transparent:true,opacity:c[3]}));
     m.rotation.x=c[4];m.rotation.y=c[5];m.userData.op=c[3];
     scene.add(m);rings.push(m);
   });
-  if(!SKIP_INTRO){
-    setTimeout(function(){rings.forEach(function(r,i){gsap.to(r.material,{opacity:r.userData.op,duration:2,delay:0.5+i*0.15,ease:'power2.out'});});},400);
-  }
 }
 
 function buildBgShards(){
