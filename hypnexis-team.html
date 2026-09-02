@@ -34,6 +34,7 @@ body{
 .nlink{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;color:rgba(200,225,255,.8);text-decoration:none;text-transform:uppercase;transition:color .3s;}
 .nlink:hover{color:#fff;}
 .nlink.active{color:#88ccff;}
+.nav-logo{height:30px;width:auto;display:block;filter:invert(1) drop-shadow(0 0 10px rgba(80,160,255,.7));}
 .nreg{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;padding:10px 24px;border:1px solid rgba(120,170,255,.55);color:#e0eeff;background:rgba(15,45,180,.4);backdrop-filter:blur(10px);cursor:pointer;text-decoration:none;text-transform:uppercase;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:all .3s;}
 .nreg:hover{background:rgba(40,100,255,.6);border-color:rgba(160,210,255,.9);box-shadow:0 0 22px rgba(60,120,255,.5);color:#fff;}
 
@@ -72,6 +73,7 @@ footer a:hover{color:#fff;}
 @media(max-width:768px){
   #nav{padding:16px 18px;}
   .nlinks{gap:14px;}
+  .nav-logo{height:24px;}
   .sec{padding:120px 0 70px;}
   .sec-inner{padding:0 22px;}
   .tmgrid{grid-template-columns:1fr;}
@@ -92,7 +94,7 @@ a:focus-visible{outline:2px solid rgba(140,195,255,.9);outline-offset:3px;border
 <div id="noise"></div>
 
 <nav id="nav">
-  <a href="hypnexis-main.html" class="nbrand"><div class="nbox">HX</div>HYPNEXIS<span class="nyr">'26</span></a>
+  <a href="hypnexis-main.html" class="nbrand"><img class="nav-logo" src="images/hypnexis-logo.png" alt="HYPNEXIS '26"></a>
   <div class="nlinks">
     <a href="hypnexis-main.html" class="nlink">HOME</a>
     <a href="hypnexis-team.html" class="nlink active">TEAM</a>
@@ -113,6 +115,9 @@ a:focus-visible{outline:2px solid rgba(140,195,255,.9);outline-offset:3px;border
 
     <h2 class="grouplabel rv vis">Convenors</h2>
     <div class="tmgrid" id="convenorGrid"></div>
+
+    <h2 class="grouplabel rv vis">Co-Convenors</h2>
+    <div class="tmgrid" id="coConvenorGrid"></div>
   </div>
 </section>
 </main>
@@ -133,12 +138,25 @@ a:focus-visible{outline:2px solid rgba(140,195,255,.9);outline-offset:3px;border
    next to this page and it will be picked up automatically.
    Leave `photo` empty ("") to keep the placeholder initials.
 ==================================================== */
+// Photo convention: drop the real photo file into images/team/ using the
+// filename already referenced below, then it appears automatically — no
+// other code change needed. Left empty ("") until a real photo exists, so
+// the page never requests a file that isn't there yet (a missing photo
+// falls back to initials, not a random/placeholder image).
 var facultyCoordinators = [
-  // { name: "Dr. Full Name", role: "Faculty Coordinator", dept: "Dept. of CCE, MUJ", photo: "faculty1.jpg" },
+  { name: "Aditya Narayan Hati", role: "Faculty Coordinator", dept: "Dept. of CCE, MUJ", photo: "" }, // images/team/aditya-narayan-hati.jpg
+  { name: "Rahul Sharma", role: "Faculty Coordinator", dept: "Dept. of CCE, MUJ", photo: "" }, // images/team/rahul-sharma.jpg
 ];
 
 var convenors = [
-  // { name: "Full Name", role: "Convenor", dept: "", photo: "convenor1.jpg" },
+  { name: "Akul Chitkara", role: "Convenor", dept: "", photo: "" }, // images/team/akul-chitkara.jpg
+  { name: "Madhurjya Kakati", role: "Convenor", dept: "", photo: "" }, // images/team/madhurjya-kakati.jpg
+];
+
+// Empty for now, on purpose — add people here later exactly like the
+// arrays above (name/role/dept/photo) and a card renders automatically.
+var coConvenors = [
+  // { name: "Full Name", role: "Co-Convenor", dept: "", photo: "images/team/full-name.jpg" },
 ];
 
 function initials(name){
@@ -199,6 +217,7 @@ function renderGrid(containerId, people){
 
 renderGrid('facultyGrid', facultyCoordinators);
 renderGrid('convenorGrid', convenors);
+renderGrid('coConvenorGrid', coConvenors);
 </script>
 </body>
 </html>

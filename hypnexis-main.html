@@ -33,6 +33,7 @@ html,body{width:100%;overflow-x:hidden;background:#020c28;color:#fff;font-family
 .ldr-box{position:relative;z-index:1;width:52px;height:52px;border:1.5px solid rgba(130,190,255,.7);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-weight:900;font-size:17px;background:rgba(10,30,140,.55);backdrop-filter:blur(6px);color:#fff;animation:ldrpulse 1.8s ease-in-out infinite;}
 @keyframes ldrpulse{0%,100%{box-shadow:0 0 22px rgba(60,130,255,.35);}50%{box-shadow:0 0 36px rgba(90,165,255,.65);}}
 .ldr-name{font-family:'Orbitron',monospace;font-weight:900;font-size:15px;letter-spacing:.12em;color:#fff;text-shadow:0 0 22px rgba(80,160,255,.6);margin-bottom:8px;opacity:0;transform:translateY(6px);animation:ldrfade .6s ease forwards .15s;}
+.ldr-logo{display:block;width:150px;max-width:60vw;height:auto;margin:0 auto 8px;filter:invert(1) drop-shadow(0 0 16px rgba(80,160,255,.65));opacity:0;transform:translateY(6px);animation:ldrfade .6s ease forwards .15s;}
 .ldr-yr{font-size:.6em;opacity:.65;margin-left:3px;color:rgba(160,210,255,.9);}
 .ldr-sub{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.34em;color:rgba(150,195,255,.55);text-transform:uppercase;margin-bottom:26px;opacity:0;transform:translateY(6px);animation:ldrfade .6s ease forwards .3s;}
 @keyframes ldrfade{to{opacity:1;transform:translateY(0);}}
@@ -52,6 +53,7 @@ html,body{width:100%;overflow-x:hidden;background:#020c28;color:#fff;font-family
 #nav.show{opacity:1;transform:translateY(0);}
 .nbrand{display:flex;align-items:center;gap:10px;cursor:pointer;font-family:'Orbitron',monospace;font-size:15px;font-weight:900;letter-spacing:.06em;color:#fff;text-shadow:0 0 24px rgba(80,160,255,.8);}
 .nbox{width:34px;height:34px;border:1.5px solid rgba(120,180,255,.6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;background:rgba(10,30,140,.6);backdrop-filter:blur(8px);color:#fff;}
+.nav-logo{height:30px;width:auto;display:block;filter:invert(1) drop-shadow(0 0 10px rgba(80,160,255,.7));}
 .nyr{font-size:.62em;opacity:.65;margin-left:3px;color:rgba(160,210,255,.9);}
 .nreg{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;padding:10px 24px;border:1px solid rgba(120,170,255,.55);color:#e0eeff;background:rgba(15,45,180,.4);backdrop-filter:blur(10px);cursor:pointer;text-decoration:none;text-transform:uppercase;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:all .3s;}
 .nreg:hover{background:rgba(40,100,255,.6);border-color:rgba(160,210,255,.9);box-shadow:0 0 22px rgba(60,120,255,.5);color:#fff;}
@@ -114,6 +116,7 @@ html,body{width:100%;overflow-x:hidden;background:#020c28;color:#fff;font-family
 
 /* ABOUT GRID */
 .agrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:20px;background:rgba(80,140,255,.22);}
+.agrid.agrid-2{grid-template-columns:repeat(2,1fr);max-width:520px;margin-left:auto;margin-right:auto;}
 .ac{background:rgba(10,24,80,.65);backdrop-filter:blur(12px);padding:28px 18px;border:1px solid rgba(80,140,255,.25);transition:background .3s;}
 .ac:hover{background:rgba(18,42,120,.75);}
 .acl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.3em;color:#88ccff;margin-bottom:9px;text-shadow:0 0 10px rgba(100,180,255,.6);}
@@ -168,8 +171,10 @@ footer a:hover{color:#fff;}
 @media(max-width:768px){
   #nav{padding:16px 18px;}
   .nlinks{gap:14px;}
+  .nav-logo{height:24px;}
   .stats{flex-wrap:wrap;}.stat{flex:1 1 40%;border-right:none;border-bottom:1px solid rgba(120,180,255,.12);}
   .agrid,.tgrid{grid-template-columns:1fr;}
+  .agrid.agrid-2{grid-template-columns:1fr;max-width:none;}
   .tl-grid{grid-template-columns:1fr;}
   footer{flex-direction:column;gap:10px;text-align:center;}
   .sec-inner{padding:0 22px;}
@@ -199,7 +204,7 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
       <div class="ldr-ring2"></div>
       <div class="ldr-box">HX</div>
     </div>
-    <div class="ldr-name">HYPNEXIS<span class="ldr-yr">'26</span></div>
+    <img class="ldr-logo" src="images/hypnexis-logo.png" alt="HYPNEXIS '26">
     <div class="ldr-sub">Dept. of CCE &middot; MUJ</div>
     <div class="ldr-bar"><div class="ldr-fill" id="ldrFill"></div></div>
     <div class="ldr-pct" id="ldrPct">0%</div>
@@ -210,7 +215,7 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
 <div id="noise"></div>
 
 <nav id="nav">
-  <div class="nbrand"><div class="nbox">HX</div>HYPNEXIS<span class="nyr">'26</span></div>
+  <div class="nbrand"><img class="nav-logo" src="images/hypnexis-logo.png" alt="HYPNEXIS '26"></div>
   <div class="nlinks">
     <a href="hypnexis-team.html" class="nlink">TEAM</a>
     <a href="#s5" class="nreg" id="navreg">REGISTER NOW</a>
@@ -257,13 +262,12 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
       <h2 class="sh rv d1">Where Ideas Become <em>Reality</em></h2>
       <div class="sdv rv d1"></div>
       <p class="sp rv d2">Hypnexis is a 36-hour in-person hackathon at Manipal University Jaipur, bringing together the brightest student minds to build, compete, and create. Organised by the Department of Computer &amp; Communication Engineering.</p>
-      <div class="agrid rv d3" style="margin-top:44px;">
+      <div class="agrid agrid-2 rv d3" style="margin-top:44px;">
         <div class="ac"><div class="acl">Mode</div><div class="acv">In-Person</div></div>
         <div class="ac"><div class="acl">Team Size</div><div class="acv">2 – 4 Members</div></div>
-        <div class="ac"><div class="acl">Reg. Fees</div><div class="acv">To Be Announced</div></div>
       </div>
       <div class="agrid rv d4">
-        <div class="ac"><div class="acl">Dates</div><div class="acv">To Be Announced</div></div>
+        <div class="ac"><div class="acl">Dates</div><div class="acv">24 – 25 October</div></div>
         <div class="ac"><div class="acl">Venue</div><div class="acv">MUJ Campus, Jaipur</div></div>
         <div class="ac"><div class="acl">Organised By</div><div class="acv">CCE Dept., MUJ</div></div>
       </div>
@@ -321,7 +325,7 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
     <div class="sline"></div>
     <div class="sec-inner" style="max-width:1080px;">
       <span class="eye rv">Problem Tracks</span>
-      <h2 class="sh rv d1">Choose Your <em>Domain</em></h2>
+      <h2 class="sh rv d1">Hackathon <em>Tracks</em></h2>
       <div class="sdv rv d1"></div>
       <div class="tgrid" id="tgrid">
         <div class="tc"><span class="tcico"></span><div class="tcn">01</div><div class="tcname">AI &amp; Machine Learning</div><div class="tcd">LLMs, computer vision, autonomous agents and intelligent systems.</div></div>
@@ -414,11 +418,29 @@ function debounce(fn,ms){
 /* ====================================================
    LOADER — polished but fast: spinning ring, pulsing mark,
    incrementing progress. No heavy canvas work.
+
+   Runs only on the FIRST visit of a browser session. A flag is written to
+   sessionStorage once the loader has played; as long as that flag is
+   present (e.g. navigating Home -> Teams -> Home in the same tab), the
+   loader is skipped entirely and the site starts immediately. Closing the
+   tab/browser clears sessionStorage, so a genuinely new visit still gets
+   the full intro. Wrapped in try/catch because some browsers (e.g. Safari
+   private mode) can throw on storage access — if that happens we just fall
+   back to always showing the loader rather than breaking the page.
 ==================================================== */
 (function(){
+  var loader=document.getElementById('loader');
+  var alreadyVisited=false;
+  try{ alreadyVisited = sessionStorage.getItem('hypnexisVisited')==='1'; }catch(e){}
+
+  if(alreadyVisited){
+    loader.classList.add('gone');
+    startSite();
+    return;
+  }
+
   var fill=document.getElementById('ldrFill');
   var pct=document.getElementById('ldrPct');
-  var loader=document.getElementById('loader');
   var p=0;
   var iv=setInterval(function(){
     p+=10+Math.random()*18;
@@ -429,6 +451,7 @@ function debounce(fn,ms){
         loader.classList.add('fade');
         setTimeout(function(){
           loader.classList.add('gone');
+          try{ sessionStorage.setItem('hypnexisVisited','1'); }catch(e){}
           startSite();
         },450);
       },220);
