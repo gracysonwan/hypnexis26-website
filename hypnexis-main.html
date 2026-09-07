@@ -156,6 +156,13 @@ html,body{width:100%;overflow-x:hidden;background:#020c28;color:#fff;font-family
 #s5{position:relative;overflow:hidden;}
 #pcv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
 .rdl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.22em;color:rgba(180,215,255,.65);margin-top:18px;}
+/* CONTACT BLOCK — new classes only; reuses the existing .agrid/.ac cards for
+   layout so the panel matches the About section and inherits its responsive
+   collapse. Links are bold and set in Space Mono so long addresses stay
+   legible and wrap cleanly on narrow screens. */
+.acc{margin-top:11px;display:flex;flex-direction:column;gap:7px;}
+.acc a{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.03em;color:#a8d4ff;text-decoration:none;word-break:break-word;text-shadow:0 0 10px rgba(100,180,255,.45);transition:color .3s;}
+.acc a:hover{color:#fff;text-shadow:0 0 16px rgba(140,200,255,.8);}
 .rpk{display:flex;gap:28px;justify-content:center;margin-top:16px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;color:rgba(190,220,255,.7);}
 
 /* REVEAL */
@@ -218,7 +225,7 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
   <div class="nbrand"><img class="nav-logo" src="images/hypnexis-logo.png" alt="HYPNEXIS '26"></div>
   <div class="nlinks">
     <a href="hypnexis-team.html" class="nlink">TEAM</a>
-    <a href="#s5" class="nreg" id="navreg">REGISTER NOW</a>
+    <a href="https://unstop.com/o/Ypwe6cm?utm_medium=Share&amp;utm_source=yotjkfqe49657&amp;utm_campaign=Competitions" class="nreg" id="navreg" target="_blank" rel="noopener">REGISTER NOW</a>
   </div>
 </nav>
 <div id="sdots">
@@ -226,7 +233,8 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
   <button type="button" class="sd" data-goto="1" aria-label="Go to Title"></button>
   <button type="button" class="sd" data-goto="2" aria-label="Go to About"></button>
   <button type="button" class="sd" data-goto="3" aria-label="Go to Tracks"></button>
-  <button type="button" class="sd" data-goto="4" aria-label="Go to Prize Pool"></button>
+  <button type="button" class="sd" data-goto="4" aria-label="Go to Campus Ambassador"></button>
+  <button type="button" class="sd" data-goto="5" aria-label="Go to Prize Pool"></button>
 </div>
 
 <section id="s0">
@@ -243,7 +251,7 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
       <div class="hline rv d1"></div>
       <p class="hsub rv d2">36 hours. Zero limits. Build what the world hasn't seen yet.</p>
       <div class="hbtns rv d3">
-        <a href="#s5" class="bp" id="regbtn">REGISTER NOW →</a>
+        <a href="https://unstop.com/o/Ypwe6cm?utm_medium=Share&amp;utm_source=yotjkfqe49657&amp;utm_campaign=Competitions" class="bp" id="regbtn" target="_blank" rel="noopener">REGISTER NOW →</a>
         <a href="#s1" class="bo" id="expbtn">EXPLORE</a>
       </div>
       <div class="stats rv d4">
@@ -338,6 +346,33 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
     </div>
   </section>
 
+  <!-- S4B: CAMPUS AMBASSADOR
+       Uses the same .sec / .sline / .eye / .sh / .sdv / .sp / .tgrid / .tc
+       primitives as the Tracks section above, so it inherits the existing
+       reveal animation, cursor glow, hover treatment and mobile collapse
+       with no new CSS. Kept as "s4b" rather than renumbering s5/s6 so all
+       existing #s5 anchors and IDs keep working. -->
+  <section class="sec" id="s4b">
+    <div class="sline"></div>
+    <div class="sec-inner" style="max-width:1080px;">
+      <span class="eye rv">Campus Ambassador</span>
+      <h2 class="sh rv d1">Represent <em>Hypnexis</em></h2>
+      <div class="sdv rv d1"></div>
+      <p class="sp rv d2">Become a Campus Ambassador and unlock exclusive benefits including certificates, exciting goodies for bringing in the highest number of participants, and valuable networking and internship opportunities with industry professionals and fellow innovators.</p>
+      <div class="tgrid" id="ambgrid">
+        <div class="tc"><span class="tcico"></span><div class="tcn">01</div><div class="tcname">Official Certificate</div><div class="tcd">A verified certificate of recognition from the CCE Dept., MUJ.</div></div>
+        <div class="tc"><span class="tcico"></span><div class="tcn">02</div><div class="tcname">Exclusive Merch</div><div class="tcd">Ambassador-only HYPNEXIS kit and event goodies.</div></div>
+        <div class="tc"><span class="tcico"></span><div class="tcn">03</div><div class="tcname">Direct Mentorship</div><div class="tcd">Learn the playbook directly from the core organising team.</div></div>
+        <div class="tc"><span class="tcico"></span><div class="tcn">04</div><div class="tcname">Priority Access</div><div class="tcd">Early registration and reserved spots for you and your team.</div></div>
+        <div class="tc"><span class="tcico"></span><div class="tcn">05</div><div class="tcname">Network &amp; Visibility</div><div class="tcd">Featured across our socials and connected with campus leads nationwide.</div></div>
+        <div class="tc"><span class="tcico"></span><div class="tcn">06</div><div class="tcname">Top Performer Perks</div><div class="tcd">Standout ambassadors earn rewards and a spot on the core team.</div></div>
+      </div>
+      <div class="hbtns rv d3" style="margin-top:44px;margin-bottom:0;">
+        <a href="https://forms.gle/NzEQVP6ESqrMd7Wp8" class="bp" id="ambbtn" target="_blank" rel="noopener">BECOME AN AMBASSADOR →</a>
+      </div>
+    </div>
+  </section>
+
   <!-- S5: PRIZE -->
   <section class="sec" id="s5">
     <div class="sline"></div>
@@ -358,10 +393,38 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
       <div class="sdv rv d1"></div>
       <p class="sp rv d2">Spots are limited. 36 hours. ₹10 Lakh+. Your move.</p>
       <div class="hbtns rv d3" style="margin-bottom:0;margin-top:30px;">
-        <a href="#s5" class="bp" id="regbtn2" style="font-size:10px;padding:16px 52px;">SECURE YOUR SPOT →</a>
+        <a href="https://unstop.com/o/Ypwe6cm?utm_medium=Share&amp;utm_source=yotjkfqe49657&amp;utm_campaign=Competitions" class="bp" id="regbtn2" style="font-size:10px;padding:16px 52px;" target="_blank" rel="noopener">SECURE YOUR SPOT →</a>
       </div>
       <p class="rdl rv d3">MUJ CAMPUS, JAIPUR</p>
       <div class="rpk rv d4"><span>✓ IN-PERSON</span><span>✓ 2–4 MEMBERS</span><span>✓ FOOD PROVIDED</span><span>✓ WIFI &amp; WORKSPACE</span></div>
+
+      <!-- CONTACT -->
+      <div class="sdv rv d4" style="margin-top:56px;"></div>
+      <span class="eye rv d4">Contact</span>
+      <div class="agrid rv d4" style="grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto;">
+        <div class="ac">
+          <div class="acl">General Enquiries</div>
+          <div class="acc"><a href="mailto:hypnexis2026@muj.manipal.edu">hypnexis2026@muj.manipal.edu</a></div>
+        </div>
+      </div>
+      <div class="agrid agrid-2 rv d4">
+        <div class="ac">
+          <div class="acl">Convenor</div>
+          <div class="acv">Madhurjya Kakati</div>
+          <div class="acc">
+            <a href="mailto:madhurjya.kakati@outlook.com">madhurjya.kakati@outlook.com</a>
+            <a href="tel:+918822073927">+91 88220 73927</a>
+          </div>
+        </div>
+        <div class="ac">
+          <div class="acl">Convenor</div>
+          <div class="acv">Akul Chitkara</div>
+          <div class="acc">
+            <a href="mailto:akulchitkaraakul@gmail.com">akulchitkaraakul@gmail.com</a>
+            <a href="tel:+918076229840">+91 80762 29840</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -378,6 +441,43 @@ a:focus-visible,button:focus-visible,.sd:focus-visible{
 'use strict';
 
 /* ====================================================
+   CONFIG — the only two lines to edit if a link ever changes.
+   ► AMBASSADOR_FORM_URL : "Become an Ambassador" button.
+   ► REGISTER_URL        : every "Register Now" / registration CTA,
+                           on this page and the Team page nav.
+==================================================== */
+var AMBASSADOR_FORM_URL = 'https://forms.gle/NzEQVP6ESqrMd7Wp8';
+var REGISTER_URL = 'https://unstop.com/o/Ypwe6cm?utm_medium=Share&utm_source=yotjkfqe49657&utm_campaign=Competitions';
+
+(function(){
+  // Self-contained: depends on nothing declared later in this script, so it
+  // is safe to run inline here regardless of how the page was entered.
+  function setLink(id,url){
+    var b=document.getElementById(id);
+    if(!b) return;
+    b.setAttribute('href',url);
+    b.setAttribute('target','_blank');
+    b.setAttribute('rel','noopener');
+  }
+  setLink('ambbtn',AMBASSADOR_FORM_URL);
+  ['navreg','regbtn','regbtn2'].forEach(function(id){setLink(id,REGISTER_URL);});
+})();
+
+/* ====================================================
+   BFCACHE GUARD
+   When Home is restored from the back/forward cache, none of this script
+   re-runs — the frozen JS state simply resumes. That's normally fine and
+   fast, so we leave a healthy page alone. But a frozen tab can have its
+   WebGL context reclaimed by the browser, and a restored page in that
+   state has nothing left running to rebuild the crystal. Reload only in
+   that case, so Home always comes back looking like a fresh load without
+   paying for a needless reload every time the user hits Back.
+==================================================== */
+window.addEventListener('pageshow',function(e){
+  if(e.persisted && !threeReady) location.reload();
+});
+
+/* ====================================================
    CURSOR
 ==================================================== */
 var CUR=document.getElementById('cur'),CUR2=document.getElementById('cur2');
@@ -389,11 +489,17 @@ document.addEventListener('mousemove',function(e){
   targetNY=-((e.clientY/window.innerHeight)*2-1);
 },{passive:true});
 (function curLoop(){
-  ccx+=(cmx-ccx)*.2;ccy+=(cmy-ccy)*.2;
-  crx+=(cmx-crx)*.1;cry+=(cmy-cry)*.1;
+  requestAnimationFrame(curLoop);
+  if(document.hidden) return;
+  var dx=cmx-ccx,dy=cmy-ccy,rdx=cmx-crx,rdy=cmy-cry;
+  // Once both rings have caught up to the pointer, further writes move
+  // nothing but still cost a style recalc every frame. Idle instead —
+  // motion resumes the moment the pointer does.
+  if(Math.abs(dx)<0.05&&Math.abs(dy)<0.05&&Math.abs(rdx)<0.05&&Math.abs(rdy)<0.05) return;
+  ccx+=dx*.2;ccy+=dy*.2;
+  crx+=rdx*.1;cry+=rdy*.1;
   CUR.style.left=ccx+'px';CUR.style.top=ccy+'px';
   CUR2.style.left=crx+'px';CUR2.style.top=cry+'px';
-  requestAnimationFrame(curLoop);
 })();
 document.querySelectorAll('a,button,.tc,.ac,.flip-card').forEach(function(el){
   el.addEventListener('mouseenter',function(){CUR2.style.width='46px';CUR2.style.height='46px';CUR2.style.borderColor='rgba(160,210,255,.8)';});
@@ -435,7 +541,16 @@ function debounce(fn,ms){
 
   if(alreadyVisited){
     loader.classList.add('gone');
-    startSite();
+    // IMPORTANT: do NOT call startSite() inline here. This block executes
+    // while the rest of this script is still being parsed, and the Three.js
+    // state arrays below (glowLights, rings, bgShards, crystalPieces) are
+    // `var`s whose initialisers haven't run yet — they're hoisted but still
+    // `undefined`. buildLights() would hit `glowLights.push(...)` and throw,
+    // aborting initThree() and everything after it (parallax, particle
+    // morph, #content.show), leaving a bare background. Deferring to
+    // DOMContentLoaded makes this path start in exactly the same state as
+    // the first-visit path, which starts from the loader's setTimeout.
+    startWhenReady();
     return;
   }
 
@@ -464,7 +579,24 @@ function debounce(fn,ms){
 /* ====================================================
    START SITE
 ==================================================== */
+
+// Guarantees startSite() never runs before this script has finished
+// parsing, so every module-level variable it depends on is initialised.
+function startWhenReady(){
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',startSite,{once:true});
+  } else {
+    startSite();
+  }
+}
+
+var siteStarted=false;
 function startSite(){
+  // Both entry paths (loader completion and the returning-visitor fast path)
+  // funnel through here. Guarding makes a double call harmless instead of
+  // building a second scene on top of the first.
+  if(siteStarted) return;
+  siteStarted=true;
   document.getElementById('nav').classList.add('show');
   document.getElementById('sdots').classList.add('show');
   document.getElementById('s0').classList.add('rdy');
@@ -486,10 +618,31 @@ var assembleState='idle',assembleTimer=0;
 var ASSEMBLE_INT=5.5,EXPLODE_DUR=1.1,HOLD_DUR=0.5,ASSEMBLE_DUR=1.9;
 var glowLights=[];
 var loopTime=0,lastTS=0;
+var rloopId=null,threeReady=false,glListenersBound=false,threeResizeBound=false;
+
+// Hoisted once. tickAssemble() previously allocated six THREE.Color objects
+// per crystal piece per frame — at 60fps with ~20 pieces that's ~7,000
+// short-lived objects a second, which shows up as periodic GC stutter over
+// a long session. Same values, same result, no per-frame allocation.
+// lerpColors() reads these without mutating them, so sharing is safe.
+var C_BASE_A,C_BASE_B,C_GLOW_A,C_GLOW_B,C_EDGE_A,C_EDGE_B;
+function initColors(){
+  if(C_BASE_A) return;
+  C_BASE_A=new THREE.Color(0x1e5599);C_BASE_B=new THREE.Color(0xaaddff);
+  C_GLOW_A=new THREE.Color(0x3377cc);C_GLOW_B=new THREE.Color(0x88ccff);
+  C_EDGE_A=new THREE.Color(0x88ccff);C_EDGE_B=new THREE.Color(0xffffff);
+}
 
 
 function initThree(){
   var cv=document.getElementById('c');
+
+  // Safe to call more than once — e.g. when the WebGL context is restored
+  // after being lost while the tab was backgrounded/frozen. Tear down any
+  // previous scene first so we never end up with duplicate render loops,
+  // duplicate objects, or leaked GPU resources.
+  if(threeReady) teardownThree();
+
   renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
   renderer.setSize(window.innerWidth,window.innerHeight);
@@ -498,14 +651,60 @@ function initThree(){
   scene=new THREE.Scene();
   camera=new THREE.PerspectiveCamera(52,window.innerWidth/window.innerHeight,0.1,200);
   camera.position.set(0,0,7);
-  window.addEventListener('resize',debounce(function(){
-    camera.aspect=window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth,window.innerHeight);
-  },150));
+
+  // Bound ONCE, not per initThree() call. initThree() re-runs on WebGL
+  // context restore, and re-adding this each time would stack duplicate
+  // resize handlers that never get removed. It reads the current renderer
+  // and camera from the outer scope, so one listener stays correct across
+  // every teardown/rebuild.
+  if(!threeResizeBound){
+    window.addEventListener('resize',debounce(function(){
+      if(!renderer||!camera) return;
+      camera.aspect=window.innerWidth/window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth,window.innerHeight);
+    },150));
+    threeResizeBound=true;
+  }
+
+  // WebGL context loss can happen with no navigation at all (GPU process
+  // reclaimed while backgrounded, driver reset, etc). Bind these once per
+  // canvas — they stay valid across teardownThree()/initThree() calls
+  // since the <canvas> element itself is never recreated, only rebound.
+  if(!glListenersBound){
+    cv.addEventListener('webglcontextlost',function(e){
+      e.preventDefault();
+      if(rloopId){cancelAnimationFrame(rloopId);rloopId=null;}
+      threeReady=false;
+    },false);
+    cv.addEventListener('webglcontextrestored',function(){
+      initThree();
+    },false);
+    glListenersBound=true;
+  }
+
+  initColors();
   buildLights();buildBgGrid();buildParticles();buildNexus();buildRings();buildBgShards();
   lastTS=performance.now();
-  requestAnimationFrame(rloop);
+  rloopId=requestAnimationFrame(rloop);
+  threeReady=true;
+}
+
+function teardownThree(){
+  if(rloopId){cancelAnimationFrame(rloopId);rloopId=null;}
+  if(scene){
+    scene.traverse(function(obj){
+      if(obj.geometry) obj.geometry.dispose();
+      if(obj.material){
+        (Array.isArray(obj.material)?obj.material:[obj.material]).forEach(function(m){m.dispose();});
+      }
+    });
+  }
+  if(renderer) renderer.dispose();
+  nexus=null;partSys=null;bgGrid=null;
+  rings=[];bgShards=[];crystalPieces=[];glowLights=[];
+  assembleState='idle';assembleTimer=0;loopTime=0;
+  threeReady=false;
 }
 
 function buildLights(){
@@ -694,9 +893,9 @@ function tickAssemble(dt){
       p.mesh.rotation.x=p.startRX+p.explodeRot.x*e;
       p.mesh.rotation.y=p.startRY+p.explodeRot.y*e;
       p.mesh.rotation.z=p.startRZ+p.explodeRot.z*e;
-      if(p.baseMat){p.baseMat.color.lerpColors(new THREE.Color(0x1e5599),new THREE.Color(0xaaddff),e);p.baseMat.opacity=0.65+e*0.30;}
-      if(p.innerGlowMat){p.innerGlowMat.color.lerpColors(new THREE.Color(0x3377cc),new THREE.Color(0x88ccff),e);p.innerGlowMat.opacity=0.50+e*0.45;}
-      if(p.edgeMat){p.edgeMat.color.lerpColors(new THREE.Color(0x88ccff),new THREE.Color(0xffffff),e);p.edgeMat.opacity=0.90+e*0.10;}
+      if(p.baseMat){p.baseMat.color.lerpColors(C_BASE_A,C_BASE_B,e);p.baseMat.opacity=0.65+e*0.30;}
+      if(p.innerGlowMat){p.innerGlowMat.color.lerpColors(C_GLOW_A,C_GLOW_B,e);p.innerGlowMat.opacity=0.50+e*0.45;}
+      if(p.edgeMat){p.edgeMat.color.lerpColors(C_EDGE_A,C_EDGE_B,e);p.edgeMat.opacity=0.90+e*0.10;}
     });
     glowLights.forEach(function(gl,i){
       var a=(i/glowLights.length)*Math.PI*2,mt=Math.min(1,assembleTimer/EXPLODE_DUR);
@@ -719,9 +918,9 @@ function tickAssemble(dt){
       p.mesh.rotation.x=lerp(p.startRX,p.homeQuat.x,lt);
       p.mesh.rotation.y=lerp(p.startRY,p.homeQuat.y,lt);
       p.mesh.rotation.z=lerp(p.startRZ,p.homeQuat.z,lt);
-      if(p.baseMat){p.baseMat.color.lerpColors(new THREE.Color(0xaaddff),new THREE.Color(0x1e5599),Math.min(1,lt*1.8));p.baseMat.opacity=0.65;}
-      if(p.innerGlowMat){p.innerGlowMat.color.lerpColors(new THREE.Color(0x88ccff),new THREE.Color(0x3377cc),Math.min(1,lt*2));p.innerGlowMat.opacity=0.50+Math.max(0,1-lt*2)*0.4;}
-      if(p.edgeMat){p.edgeMat.color.lerpColors(new THREE.Color(0xffffff),new THREE.Color(0x88ccff),Math.min(1,lt*2));p.edgeMat.opacity=0.90;}
+      if(p.baseMat){p.baseMat.color.lerpColors(C_BASE_B,C_BASE_A,Math.min(1,lt*1.8));p.baseMat.opacity=0.65;}
+      if(p.innerGlowMat){p.innerGlowMat.color.lerpColors(C_GLOW_B,C_GLOW_A,Math.min(1,lt*2));p.innerGlowMat.opacity=0.50+Math.max(0,1-lt*2)*0.4;}
+      if(p.edgeMat){p.edgeMat.color.lerpColors(C_EDGE_B,C_EDGE_A,Math.min(1,lt*2));p.edgeMat.opacity=0.90;}
     });
     if(allDone||assembleTimer>ASSEMBLE_DUR+0.5){
       assembleState='idle';assembleTimer=0;
@@ -739,7 +938,8 @@ function tickAssemble(dt){
 
 var CAM=[{x:0,y:0,z:7},{x:0,y:-0.4,z:6.5},{x:3,y:0.5,z:6.8},{x:0,y:2,z:5.8},{x:-2,y:-1,z:6.5},{x:0,y:0,z:4.5}];
 function rloop(ts){
-  requestAnimationFrame(rloop);
+  rloopId=requestAnimationFrame(rloop);
+  if(!renderer||!scene||!camera||!nexus||!partSys||!bgGrid){return;}
   if(document.hidden){lastTS=ts;return;}
   var dt=Math.min((ts-lastTS)/1000,0.05);lastTS=ts;loopTime+=dt;
   scrollFrac+=(targetFrac-scrollFrac)*0.055;
@@ -793,14 +993,16 @@ function rloop(ts){
    PARALLAX LAYER
 ==================================================== */
 var pmCv,pmCtx,pmW,pmH,pmStars=[],pmLines=[],pmScrollY=0,pmTargetY=0;
+var pmRafId=null;
 function initParaMid(){
+  if(pmRafId!==null) return;              // never start a second loop
   pmCv=document.getElementById('para-mid');pmCtx=pmCv.getContext('2d');
   function rsz(){pmW=pmCv.width=window.innerWidth;pmH=pmCv.height=window.innerHeight;}
   rsz();window.addEventListener('resize',debounce(rsz,150));
   for(var i=0;i<140;i++) pmStars.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight*7,r:0.5+Math.random()*1.8,speed:0.1+Math.random()*0.4,a:0.3+Math.random()*0.6,h:205+Math.random()*35});
   for(var j=0;j<16;j++) pmLines.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight*7,w:80+Math.random()*280,speed:0.06+Math.random()*0.28,a:0.05+Math.random()*0.1,vx:(Math.random()-.5)*0.35});
   (function drawPM(){
-    requestAnimationFrame(drawPM);
+    pmRafId=requestAnimationFrame(drawPM);
     if(document.hidden) return;
     pmScrollY+=(pmTargetY-pmScrollY)*0.04;
     pmCtx.clearRect(0,0,pmW,pmH);
@@ -823,7 +1025,9 @@ function initParaMid(){
 /* ====================================================
    PARTICLE MORPH (register section)
 ==================================================== */
+var morphRafId=null;
 function initParticleMorph(){
+  if(morphRafId!==null) return;           // never start a second loop
   var cv=document.getElementById('pcv');if(!cv) return;
   var ctx=cv.getContext('2d');
   function rsz(){cv.width=cv.offsetWidth||800;cv.height=cv.offsetHeight||400;}
@@ -835,10 +1039,22 @@ function initParticleMorph(){
       col:'rgba('+Math.round(br*20)+','+Math.round(br*70)+','+Math.round(br*240)+','+(0.38+Math.random()*0.38)+')',s:1+Math.random()*1.2});
   }
   var mt=0,md=1,pmx2=(cv.width||800)/2,pmy2=(cv.height||400)/2;
-  cv.addEventListener('mousemove',function(e){var r=cv.getBoundingClientRect();pmx2=e.clientX-r.left;pmy2=e.clientY-r.top;});
+  cv.addEventListener('mousemove',function(e){var r=cv.getBoundingClientRect();pmx2=e.clientX-r.left;pmy2=e.clientY-r.top;},{passive:true});
+
+  // This canvas lives in the last section. It used to repaint 280 particles
+  // every frame for the entire session, even while the user sat at the top
+  // of the page and it was nowhere near the viewport. Idling it when
+  // off-screen is invisible to the user and removes a constant CPU cost.
+  var morphVisible=true;
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      es.forEach(function(en){morphVisible=en.isIntersecting;});
+    },{threshold:0}).observe(cv);
+  }
+
   (function frame(){
-    requestAnimationFrame(frame);
-    if(document.hidden) return;
+    morphRafId=requestAnimationFrame(frame);
+    if(document.hidden||!morphVisible) return;
     mt+=0.007*md;if(mt>1||mt<0) md*=-1;
     ctx.clearRect(0,0,cv.width,cv.height);
     pts.forEach(function(p,i){
@@ -856,12 +1072,16 @@ function initParticleMorph(){
 /* ====================================================
    SCROLL + SECTIONS
 ==================================================== */
+// NOTE: indices below are positional. s4b (Campus Ambassador) sits between
+// Tracks and Prize, which pushes Prize from index 4 to index 5 — the gos()
+// calls further down are updated to match.
 var ALL=[
-  document.getElementById('s0'),
-  document.getElementById('s1'),
-  document.getElementById('s2'),
-  document.getElementById('s4'),
-  document.getElementById('s5')
+  document.getElementById('s0'),   // 0 — hero
+  document.getElementById('s1'),   // 1 — title
+  document.getElementById('s2'),   // 2 — about
+  document.getElementById('s4'),   // 3 — tracks
+  document.getElementById('s4b'),  // 4 — campus ambassador
+  document.getElementById('s5')    // 5 — prize
 ].filter(Boolean);
 var DOTS=document.querySelectorAll('.sd');
 var curSec=0;
@@ -871,10 +1091,10 @@ function gos(i){if(ALL[i]) ALL[i].scrollIntoView({behavior:REDUCED_MOTION?'auto'
 DOTS.forEach(function(d){
   d.addEventListener('click',function(){gos(parseInt(d.getAttribute('data-goto'),10));});
 });
-document.getElementById('navreg').addEventListener('click',function(e){e.preventDefault();gos(4);});
-document.getElementById('regbtn').addEventListener('click',function(e){e.preventDefault();gos(4);});
+// navreg / regbtn / regbtn2 are real outbound links to REGISTER_URL now, so
+// they deliberately have NO click handler — a preventDefault() here would
+// swallow the navigation. expbtn still scrolls internally.
 document.getElementById('expbtn').addEventListener('click',function(e){e.preventDefault();gos(1);});
-document.getElementById('regbtn2').addEventListener('click',function(e){e.preventDefault();gos(4);});
 
 function setActive(i){
   curSec=i;
@@ -883,8 +1103,14 @@ function setActive(i){
   if(typeof pmTargetY!=='undefined') pmTargetY=window.scrollY;
   if(i>=1) document.getElementById('content').classList.add('show');
   if(ALL[i]){var sl=ALL[i].querySelector('.sline');if(sl) sl.classList.add('vis');}
-  // Also trigger domain cards in section
-  if(ALL[i]){ALL[i].querySelectorAll('.tc').forEach(function(c,k){setTimeout(function(){c.classList.add('tvis');},k*100+180);});}
+  // Also trigger domain cards in section. Guarded: scrolling up and down
+  // re-fires this observer repeatedly, and without the check every pass
+  // queued a fresh timer per card that could only re-add a class already
+  // present — unbounded timer churn over a long session.
+  if(ALL[i]){ALL[i].querySelectorAll('.tc').forEach(function(c,k){
+    if(c.classList.contains('tvis')) return;
+    setTimeout(function(){c.classList.add('tvis');},k*100+180);
+  });}
 }
 
 // Section observer
@@ -931,11 +1157,21 @@ var fcObs=new IntersectionObserver(function(entries){
 },{threshold:0.1});
 document.querySelectorAll('.flip-card').forEach(function(c){fcObs.observe(c);});
 
-window.addEventListener('scroll',function(){
+// Scroll is rAF-coalesced and passive. Previously this ran on every scroll
+// event and read document.body.scrollHeight each time — a forced synchronous
+// layout per event, which is the main source of scroll jank on long pages
+// and on touch devices. Now it does at most one read per frame, and being
+// passive it no longer blocks the browser's scrolling thread.
+var scrollQueued=false;
+function onScrollFrame(){
+  scrollQueued=false;
   var mx=document.body.scrollHeight-window.innerHeight;
   if(mx>0) targetFrac=window.scrollY/mx;
-  if(typeof pmTargetY!=='undefined') pmTargetY=window.scrollY;
-});
+  pmTargetY=window.scrollY;
+}
+window.addEventListener('scroll',function(){
+  if(!scrollQueued){scrollQueued=true;requestAnimationFrame(onScrollFrame);}
+},{passive:true});
 document.addEventListener('keydown',function(e){
   if(e.key==='ArrowDown'||e.key==='PageDown') gos(Math.min(curSec+1,ALL.length-1));
   if(e.key==='ArrowUp'||e.key==='PageUp') gos(Math.max(curSec-1,0));

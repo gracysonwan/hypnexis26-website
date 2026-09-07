@@ -99,7 +99,7 @@ a:focus-visible{outline:2px solid rgba(140,195,255,.9);outline-offset:3px;border
   <div class="nlinks">
     <a href="hypnexis-main.html" class="nlink">HOME</a>
     <a href="hypnexis-team.html" class="nlink active">TEAM</a>
-    <a href="hypnexis-main.html" class="nreg">REGISTER NOW</a>
+    <a href="https://unstop.com/o/Ypwe6cm?utm_medium=Share&amp;utm_source=yotjkfqe49657&amp;utm_campaign=Competitions" class="nreg" target="_blank" rel="noopener">REGISTER NOW</a>
   </div>
 </nav>
 
@@ -111,6 +111,9 @@ a:focus-visible{outline:2px solid rgba(140,195,255,.9);outline-offset:3px;border
     <div class="sdv rv vis"></div>
     <p class="sp rv vis">The people from the Dept. of Computer &amp; Communication Engineering, MUJ, making HYPNEXIS '26 happen.</p>
 
+    <h2 class="grouplabel rv vis">Program Chair</h2>
+    <div class="tmgrid" id="programChairGrid"></div>
+
     <h2 class="grouplabel rv vis">Faculty Coordinators</h2>
     <div class="tmgrid" id="facultyGrid"></div>
 
@@ -119,6 +122,9 @@ a:focus-visible{outline:2px solid rgba(140,195,255,.9);outline-offset:3px;border
 
     <h2 class="grouplabel rv vis">Co-Convenors</h2>
     <div class="tmgrid" id="coConvenorGrid"></div>
+
+    <h2 class="grouplabel rv vis">Managing Directors</h2>
+    <div class="tmgrid" id="managingDirectorGrid"></div>
   </div>
 </section>
 </main>
@@ -144,9 +150,13 @@ a:focus-visible{outline:2px solid rgba(140,195,255,.9);outline-offset:3px;border
 // other code change needed. Left empty ("") until a real photo exists, so
 // the page never requests a file that isn't there yet (a missing photo
 // falls back to initials, not a random/placeholder image).
+var programChair = [
+  { name: "Dr. Arjun Singh", role: "Program Chair", dept: "Dept. of CCE, MUJ", photo: "" }, // images/team/arjun-singh.jpg
+];
+
 var facultyCoordinators = [
-  { name: "Aditya Narayan Hati", role: "Faculty Coordinator", dept: "Dept. of CCE, MUJ", photo: "" }, // images/team/aditya-narayan-hati.jpg
-  { name: "Rahul Sharma", role: "Faculty Coordinator", dept: "Dept. of CCE, MUJ", photo: "" }, // images/team/rahul-sharma.jpg
+  { name: "Mr. Aditya Narayan Hati", role: "Faculty Coordinator", dept: "Dept. of CCE, MUJ", photo: "" }, // images/team/aditya-narayan-hati.jpg
+  { name: "Mr. Rahul Sharma", role: "Faculty Coordinator", dept: "Dept. of CCE, MUJ", photo: "" }, // images/team/rahul-sharma.jpg
 ];
 
 var convenors = [
@@ -154,14 +164,25 @@ var convenors = [
   { name: "Madhurjya Kakati", role: "Convenor", dept: "", photo: "" }, // images/team/madhurjya-kakati.jpg
 ];
 
-// Empty for now, on purpose — add people here later exactly like the
-// arrays above (name/role/dept/photo) and a card renders automatically.
 var coConvenors = [
-  // { name: "Full Name", role: "Co-Convenor", dept: "", photo: "images/team/full-name.jpg" },
+  { name: "Gracy Sonwan", role: "Co-Convenor", dept: "", photo: "" }, // images/team/gracy-sonwan.jpg
+  { name: "Zaina Saini", role: "Co-Convenor", dept: "", photo: "" }, // images/team/zaina-saini.jpg
+  { name: "Tejas Bhadauria", role: "Co-Convenor", dept: "", photo: "" }, // images/team/tejas-bhadauria.jpg
+  { name: "Hrishi Bhalaria", role: "Co-Convenor", dept: "", photo: "" }, // images/team/hrishi-bhalaria.jpg
 ];
 
+var managingDirectors = [
+  { name: "Pratyush Sharma", role: "Managing Director", dept: "", photo: "" }, // images/team/pratyush-sharma.jpg
+  { name: "Krish Maingi", role: "Managing Director", dept: "", photo: "" }, // images/team/krish-maingi.jpg
+];
+
+// Honorifics are skipped so "Dr. Arjun Singh" gives AS, not DA.
+var HONORIFICS = ['dr','dr.','prof','prof.','mr','mr.','mrs','mrs.','ms','ms.','shri','smt'];
 function initials(name){
-  return name.split(' ').filter(Boolean).slice(0,2).map(function(w){return w[0];}).join('').toUpperCase();
+  var parts = name.split(' ').filter(Boolean)
+    .filter(function(w){ return HONORIFICS.indexOf(w.toLowerCase()) === -1; });
+  if(!parts.length) parts = name.split(' ').filter(Boolean);
+  return parts.slice(0,2).map(function(w){return w[0];}).join('').toUpperCase();
 }
 
 function renderGrid(containerId, people){
@@ -216,9 +237,11 @@ function renderGrid(containerId, people){
   });
 }
 
+renderGrid('programChairGrid', programChair);
 renderGrid('facultyGrid', facultyCoordinators);
 renderGrid('convenorGrid', convenors);
 renderGrid('coConvenorGrid', coConvenors);
+renderGrid('managingDirectorGrid', managingDirectors);
 </script>
 </body>
 </html>
