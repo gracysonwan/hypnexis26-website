@@ -383,6 +383,13 @@
       }
     }
 
+    /* Too little room on phones for five nav items; HOME still gets there. */
+    @media(max-width:600px) {
+      .nlink-wide {
+        display: none;
+      }
+    }
+
     /* FOCUS VISIBILITY */
     a:focus-visible {
       outline: 2px solid rgba(140, 195, 255, .9);
@@ -410,6 +417,8 @@
         alt="HYPNEXIS '26"></a>
     <div class="nlinks">
       <a href="hypnexis-main.html" class="nlink">HOME</a>
+      <a href="hypnexis-main.html#problem-statements" class="nlink nlink-wide">PROBLEMS</a>
+      <a href="hypnexis-main.html#timeline" class="nlink nlink-wide">TIMELINE</a>
       <a href="hypnexis-team.html" class="nlink active">TEAM</a>
       <a href="https://unstop.com/o/Ypwe6cm?utm_medium=Share&amp;utm_source=yotjkfqe49657&amp;utm_campaign=Competitions"
         class="nreg" target="_blank" rel="noopener">REGISTER NOW</a>
@@ -437,8 +446,14 @@
         <h2 class="grouplabel rv vis">Co-Convenors</h2>
         <div class="tmgrid" id="coConvenorGrid"></div>
 
-        <h2 class="grouplabel rv vis">Managing Directors</h2>
-        <div class="tmgrid" id="managingDirectorGrid"></div>
+        <h2 class="grouplabel rv vis">Technical Lead</h2>
+        <div class="tmgrid" id="technicalLeadGrid"></div>
+
+        <h2 class="grouplabel rv vis">Executive Lead</h2>
+        <div class="tmgrid" id="executiveLeadGrid"></div>
+
+        <h2 class="grouplabel rv vis">Advisory</h2>
+        <div class="tmgrid" id="advisoryGrid"></div>
       </div>
     </section>
   </main>
@@ -480,14 +495,21 @@
 
     var coConvenors = [
       { name: "Gracy Sonwan", role: "Co-Convenor", dept: "", photo: "" }, // images/team/gracy-sonwan.jpg
-      { name: "Zaina Saini", role: "Co-Convenor", dept: "", photo: "" }, // images/team/zaina-saini.jpg
+      { name: "Shishir Mohan", role: "Co-Convenor", dept: "", photo: "" }, // images/team/shishir-mohan.jpg
+      { name: "Pratyush Sharma", role: "Co-Convenor", dept: "", photo: "" }, // images/team/pratyush-sharma.jpg
       { name: "Tejas Bhadauria", role: "Co-Convenor", dept: "", photo: "" }, // images/team/tejas-bhadauria.jpg
-      { name: "Hrishi Bhalaria", role: "Co-Convenor", dept: "", photo: "" }, // images/team/hrishi-bhalaria.jpg
     ];
 
-    var managingDirectors = [
-      { name: "Pratyush Sharma", role: "Managing Director", dept: "", photo: "" }, // images/team/pratyush-sharma.jpg
-      { name: "Krish Maingi", role: "Managing Director", dept: "", photo: "" }, // images/team/krish-maingi.jpg
+    var technicalLead = [
+      { name: "Hrishi Bhalaria", role: "Technical Lead", dept: "", photo: "" }, // images/team/hrishi-bhalaria.jpg
+    ];
+
+    var executiveLead = [
+      { name: "Archit Goyal", role: "Executive Lead", dept: "", photo: "" }, // images/team/archit-goyal.jpg
+    ];
+
+    var advisory = [
+      { name: "Krishna Goyal", role: "Advisor", dept: "", photo: "" }, // images/team/krishna-goyal.jpg
     ];
 
     // Honorifics are skipped so "Dr. Arjun Singh" gives AS, not DA.
@@ -555,7 +577,9 @@
     renderGrid('facultyGrid', facultyCoordinators);
     renderGrid('convenorGrid', convenors);
     renderGrid('coConvenorGrid', coConvenors);
-    renderGrid('managingDirectorGrid', managingDirectors);
+    renderGrid('technicalLeadGrid', technicalLead);
+    renderGrid('executiveLeadGrid', executiveLead);
+    renderGrid('advisoryGrid', advisory);
   </script>
 </body>
 

@@ -3,6 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
+    <script>
+        // Keep any #section from the shared link (e.g. /#problem-statements),
+        // which the plain refresh below would drop.
+        location.replace('hypnexis-main.html' + location.hash);
+    </script>
     <meta http-equiv="refresh" content="0; url=hypnexis-main.html">
     <link rel="canonical" href="hypnexis-main.html">
     <title>HYPNEXIS '26</title>
