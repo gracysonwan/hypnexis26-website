@@ -421,6 +421,23 @@
       }
     }
 
+    /* Two single-person groups side by side, each label above its card */
+    .tmrow {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .tmcol {
+      flex: 0 1 228px;
+      min-width: 0;
+    }
+
+    .tmcol .tmc {
+      flex: 1 1 auto;
+      width: 100%;
+    }
+
     .tmempty {
       font-family: 'Space Mono', monospace;
       font-size: 10px;
@@ -520,6 +537,19 @@
         text-align: center;
       }
 
+      .tmrow {
+        gap: 12px;
+      }
+
+      .tmcol {
+        flex: 0 1 calc(50% - 6px);
+        max-width: 220px;
+      }
+
+      .tmcol .grouplabel {
+        letter-spacing: .2em;
+      }
+
       footer {
         flex-direction: column;
         gap: 10px;
@@ -593,11 +623,17 @@
         <h2 class="grouplabel rv vis">Co-Convenors</h2>
         <div class="tmgrid" id="coConvenorGrid"></div>
 
-        <h2 class="grouplabel rv vis">Technical Lead</h2>
-        <div class="tmgrid" id="technicalLeadGrid"></div>
-
-        <h2 class="grouplabel rv vis">Executive Lead</h2>
-        <div class="tmgrid" id="executiveLeadGrid"></div>
+        <!-- Technical Lead + Executive Lead share one row to save space -->
+        <div class="tmrow">
+          <div class="tmcol">
+            <h2 class="grouplabel rv vis">Technical Lead</h2>
+            <div class="tmgrid" id="technicalLeadGrid"></div>
+          </div>
+          <div class="tmcol">
+            <h2 class="grouplabel rv vis">Executive Lead</h2>
+            <div class="tmgrid" id="executiveLeadGrid"></div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
