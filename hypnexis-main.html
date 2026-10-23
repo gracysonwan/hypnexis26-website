@@ -1854,8 +1854,8 @@
     <button type="button" class="sd" data-goto="1" aria-label="Go to Title"></button>
     <button type="button" class="sd" data-goto="2" aria-label="Go to About"></button>
     <button type="button" class="sd" data-goto="3" aria-label="Go to Problem Statements"></button>
-    <button type="button" class="sd" data-goto="4" aria-label="Go to Timeline"></button>
-    <button type="button" class="sd" data-goto="5" aria-label="Go to Tracks"></button>
+    <button type="button" class="sd" data-goto="4" aria-label="Go to Tracks"></button>
+    <button type="button" class="sd" data-goto="5" aria-label="Go to Timeline"></button>
     <button type="button" class="sd" data-goto="6" aria-label="Go to Campus Ambassador"></button>
     <button type="button" class="sd" data-goto="7" aria-label="Go to Prize Pool"></button>
   </div>
@@ -2014,6 +2014,51 @@
       </div>
     </section>
 
+    <!-- S4: TRACKS -->
+    <section class="sec" id="s4">
+      <div class="sline"></div>
+      <div class="sec-inner" style="max-width:1080px;">
+        <span class="eye rv">Problem Tracks</span>
+        <h2 class="sh rv d1">Hackathon <em>Tracks</em></h2>
+        <div class="sdv rv d1"></div>
+        <p class="tl-banner rv d2" id="trkNote"><span class="tl-pulse"></span><span id="trkNoteTxt">Problem statements
+            unlock here · 24 Oct · 11:30 AM IST</span></p>
+        <!-- data-track is the track key used in problem-statements.json -->
+        <div class="tgrid" id="tgrid">
+          <div class="tc" data-track="ai-ml"><span class="tcico"></span>
+            <div class="tcn">01</div>
+            <div class="tcname">AI &amp; Machine Learning</div>
+            <div class="tcd">LLMs, computer vision, autonomous agents and intelligent systems.</div>
+          </div>
+          <div class="tc" data-track="web3"><span class="tcico"></span>
+            <div class="tcn">02</div>
+            <div class="tcname">Web3 &amp; Blockchain</div>
+            <div class="tcd">DeFi, DAOs, smart contracts and decentralised apps.</div>
+          </div>
+          <div class="tc" data-track="climate"><span class="tcico"></span>
+            <div class="tcn">03</div>
+            <div class="tcname">Climate Tech</div>
+            <div class="tcd">Sustainability, carbon tracking and green energy tools.</div>
+          </div>
+          <div class="tc" data-track="health"><span class="tcico"></span>
+            <div class="tcn">04</div>
+            <div class="tcname">Health &amp; MedTech</div>
+            <div class="tcd">Diagnostics AI, mental wellness and patient care innovation.</div>
+          </div>
+          <div class="tc" data-track="smart-cities"><span class="tcico"></span>
+            <div class="tcn">05</div>
+            <div class="tcname">Smart Cities</div>
+            <div class="tcd">IoT, civic tech, mobility and urban intelligence.</div>
+          </div>
+          <div class="tc" data-track="open-innovation"><span class="tcico"></span>
+            <div class="tcn">06</div>
+            <div class="tcname">Open Innovation</div>
+            <div class="tcd">No constraints. Build ideas that don't fit a box.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- TIMELINE — from the official HYPNEXIS'26 event timeline.
        data-start / data-end are in IST and drive the "now" highlight; rows
        with only data-start are one-off announcements. tl-key = milestone. -->
@@ -2082,51 +2127,6 @@
                 <span class="tl-time">4:30 PM – 6:00 PM</span><span class="tl-act">Closing Ceremony &amp; Winner
                   Announcement</span></li>
             </ol>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- S4: TRACKS -->
-    <section class="sec" id="s4">
-      <div class="sline"></div>
-      <div class="sec-inner" style="max-width:1080px;">
-        <span class="eye rv">Problem Tracks</span>
-        <h2 class="sh rv d1">Hackathon <em>Tracks</em></h2>
-        <div class="sdv rv d1"></div>
-        <p class="tl-banner rv d2" id="trkNote"><span class="tl-pulse"></span><span id="trkNoteTxt">Problem statements
-            unlock here · 24 Oct · 11:30 AM IST</span></p>
-        <!-- data-track is the track key used in problem-statements.json -->
-        <div class="tgrid" id="tgrid">
-          <div class="tc" data-track="ai-ml"><span class="tcico"></span>
-            <div class="tcn">01</div>
-            <div class="tcname">AI &amp; Machine Learning</div>
-            <div class="tcd">LLMs, computer vision, autonomous agents and intelligent systems.</div>
-          </div>
-          <div class="tc" data-track="web3"><span class="tcico"></span>
-            <div class="tcn">02</div>
-            <div class="tcname">Web3 &amp; Blockchain</div>
-            <div class="tcd">DeFi, DAOs, smart contracts and decentralised apps.</div>
-          </div>
-          <div class="tc" data-track="climate"><span class="tcico"></span>
-            <div class="tcn">03</div>
-            <div class="tcname">Climate Tech</div>
-            <div class="tcd">Sustainability, carbon tracking and green energy tools.</div>
-          </div>
-          <div class="tc" data-track="health"><span class="tcico"></span>
-            <div class="tcn">04</div>
-            <div class="tcname">Health &amp; MedTech</div>
-            <div class="tcd">Diagnostics AI, mental wellness and patient care innovation.</div>
-          </div>
-          <div class="tc" data-track="smart-cities"><span class="tcico"></span>
-            <div class="tcn">05</div>
-            <div class="tcname">Smart Cities</div>
-            <div class="tcd">IoT, civic tech, mobility and urban intelligence.</div>
-          </div>
-          <div class="tc" data-track="open-innovation"><span class="tcico"></span>
-            <div class="tcn">06</div>
-            <div class="tcname">Open Innovation</div>
-            <div class="tcd">No constraints. Build ideas that don't fit a box.</div>
           </div>
         </div>
       </div>
@@ -2914,8 +2914,8 @@
       document.getElementById('s1'),                  // 1 — title
       document.getElementById('s2'),                  // 2 — about
       document.getElementById('problem-statements'),  // 3 — problem statements
-      document.getElementById('timeline'),            // 4 — timeline
-      document.getElementById('s4'),                  // 5 — tracks
+      document.getElementById('s4'),                  // 4 — tracks
+      document.getElementById('timeline'),            // 5 — timeline
       document.getElementById('s4b'),                 // 6 — campus ambassador
       document.getElementById('s5')                   // 7 — prize
     ].filter(Boolean);
