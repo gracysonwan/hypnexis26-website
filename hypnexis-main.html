@@ -1239,26 +1239,232 @@
       padding: 11px 20px;
     }
 
-    /* Inline PDF preview — added by the script on wide, mouse-driven screens
-       only (phone browsers don't render PDFs inside a page). */
-    .ps-preview {
-      max-width: 980px;
-      margin: 18px auto 0;
-      padding: 10px;
-      border: 1px solid rgba(80, 140, 255, .3);
-      background: rgba(5, 16, 56, .7);
+    .ps-live-count {
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(210, 230, 255, .9);
+      margin: -10px 0 24px;
     }
 
-    .ps-preview[hidden] {
+    .ps-live-count:empty {
       display: none;
     }
 
-    .ps-preview iframe {
-      display: block;
+    .ps-next-count {
+      align-self: center;
+      font-weight: 700;
+      color: #6fffd2;
+      letter-spacing: .2em;
+    }
+
+    /* TRACK CARDS once problem statements are out: the card becomes a
+       button that opens its statements (.pm panel below). */
+    .tc.tc-open {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tc.tc-open .tcd {
+      margin-bottom: 16px;
+    }
+
+    .tc.tc-open:focus-visible {
+      outline: 2px solid rgba(140, 195, 255, .9);
+      outline-offset: 3px;
+    }
+
+    .tc-more {
+      position: relative;
+      z-index: 1;
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid rgba(80, 140, 255, .22);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #88ccff;
+    }
+
+    .tc-arrow {
+      margin-left: auto;
+      font-size: 13px;
+      transition: transform .3s;
+    }
+
+    .tc.tc-open:hover .tc-arrow {
+      transform: translateX(4px);
+    }
+
+    .tc-new,
+    .pm-new {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      color: #6fffd2;
+      border: 1px solid rgba(111, 255, 210, .5);
+      padding: 2px 6px;
+    }
+
+    /* PROBLEM STATEMENTS PANEL */
+    html.pm-lock,
+    html.pm-lock body {
+      overflow: hidden;
+    }
+
+    .pm {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(1, 6, 24, .74);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+
+    .pm[hidden] {
+      display: none;
+    }
+
+    .pm.open {
+      opacity: 1;
+    }
+
+    .pm-panel {
+      position: relative;
       width: 100%;
-      height: 78vh;
-      border: 0;
-      background: #0b1a4a;
+      max-width: 760px;
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 0 32px 26px;
+      text-align: left;
+      background: rgba(8, 22, 72, .97);
+      border: 1px solid rgba(120, 180, 255, .4);
+      box-shadow: 0 0 80px rgba(40, 100, 255, .25);
+      transform: translateY(16px);
+      transition: transform .35s ease;
+    }
+
+    .pm.open .pm-panel {
+      transform: none;
+    }
+
+    .pm-panel:focus {
+      outline: none;
+    }
+
+    .pm-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 28px 0 18px;
+      border-bottom: 1px solid rgba(80, 140, 255, .25);
+      background: rgba(8, 22, 72, .99);
+    }
+
+    .pm-head .eye {
+      margin-bottom: 8px;
+    }
+
+    .pm-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(18px, 3vw, 24px);
+      font-weight: 900;
+      line-height: 1.2;
+      color: #fff;
+      text-shadow: 0 0 26px rgba(100, 180, 255, .55);
+      margin-bottom: 8px;
+    }
+
+    .pm-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: #88ccff;
+    }
+
+    .pm-close {
+      flex: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .2em;
+      color: #cfe6ff;
+      background: transparent;
+      border: 1px solid rgba(120, 180, 255, .45);
+      padding: 9px 14px;
+      cursor: pointer;
+      transition: all .3s;
+    }
+
+    .pm-close:hover {
+      color: #fff;
+      border-color: rgba(170, 220, 255, .9);
+      background: rgba(60, 120, 255, .15);
+    }
+
+    .pm-list {
+      list-style: none;
+    }
+
+    .pm-item {
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(80, 140, 255, .18);
+    }
+
+    .pm-item:last-child {
+      border-bottom: 0;
+    }
+
+    .pm-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .pm-meta:empty {
+      display: none;
+    }
+
+    .pm-code {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .2em;
+      color: #88ccff;
+      border: 1px solid rgba(120, 180, 255, .4);
+      padding: 3px 8px;
+    }
+
+    .pm-ititle {
+      font-family: 'Orbitron', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: .02em;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .pm-desc {
+      font-size: 14px;
+      line-height: 1.85;
+      color: rgba(215, 232, 255, .9);
+      white-space: pre-line;
     }
 
     /* DOMAIN CARDS */
@@ -1536,6 +1742,20 @@
         white-space: normal;
       }
 
+      .pm {
+        padding: 0;
+        align-items: flex-end;
+      }
+
+      .pm-panel {
+        max-height: 92vh;
+        padding: 0 18px 22px;
+      }
+
+      .pm-head {
+        padding: 22px 0 14px;
+      }
+
       footer {
         flex-direction: column;
         gap: 10px;
@@ -1716,8 +1936,10 @@
 
     <!-- PROBLEM STATEMENTS
        Shows a countdown until release time, then switches to the live view
-       by itself as soon as the PDF is found on the site. Release times and
-       file paths are set in PS_RELEASES in the script at the bottom. -->
+       by itself as soon as assets/problem-statements/problem-statements.json
+       is found on the site. The statements themselves open from the track
+       cards in the Tracks section. Times are set in PS_RELEASES in the
+       script at the bottom. -->
     <section class="sec" id="problem-statements">
       <div class="sline"></div>
       <div class="sec-inner">
@@ -1766,10 +1988,9 @@
           <div class="ps-live">
             <div class="ps-live-title">HYPNEXIS '26 Problem Statements</div>
             <div class="ps-live-sub">Released · <span data-ps-when>24 Oct 2026 · 11:30 AM IST</span></div>
+            <p class="ps-live-count" data-ps-total></p>
             <div class="ps-btns">
-              <a href="#problem-statements" class="bp" data-ps-view target="_blank" rel="noopener">VIEW PROBLEM
-                STATEMENTS →</a>
-              <a href="#problem-statements" class="bo" data-ps-dl download>DOWNLOAD PDF</a>
+              <a href="#s4" class="bp" data-scroll>EXPLORE BY TRACK →</a>
             </div>
           </div>
         </div>
@@ -1784,14 +2005,12 @@
             <span class="ps-wait">Publishing…</span>
             <div class="ps-live">
               <div class="ps-btns">
-                <a href="#problem-statements" class="bp" data-ps-view target="_blank" rel="noopener">VIEW →</a>
-                <a href="#problem-statements" class="bo" data-ps-dl download>DOWNLOAD</a>
+                <span class="ps-next-count" data-ps-total></span>
+                <a href="#s4" class="bp" data-scroll>SEE IN TRACKS →</a>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="ps-preview" id="psPreview" hidden></div>
       </div>
     </section>
 
@@ -1875,33 +2094,36 @@
         <span class="eye rv">Problem Tracks</span>
         <h2 class="sh rv d1">Hackathon <em>Tracks</em></h2>
         <div class="sdv rv d1"></div>
+        <p class="tl-banner rv d2" id="trkNote"><span class="tl-pulse"></span><span id="trkNoteTxt">Problem statements
+            unlock here · 24 Oct · 11:30 AM IST</span></p>
+        <!-- data-track is the track key used in problem-statements.json -->
         <div class="tgrid" id="tgrid">
-          <div class="tc"><span class="tcico"></span>
+          <div class="tc" data-track="ai-ml"><span class="tcico"></span>
             <div class="tcn">01</div>
             <div class="tcname">AI &amp; Machine Learning</div>
             <div class="tcd">LLMs, computer vision, autonomous agents and intelligent systems.</div>
           </div>
-          <div class="tc"><span class="tcico"></span>
+          <div class="tc" data-track="web3"><span class="tcico"></span>
             <div class="tcn">02</div>
             <div class="tcname">Web3 &amp; Blockchain</div>
             <div class="tcd">DeFi, DAOs, smart contracts and decentralised apps.</div>
           </div>
-          <div class="tc"><span class="tcico"></span>
+          <div class="tc" data-track="climate"><span class="tcico"></span>
             <div class="tcn">03</div>
             <div class="tcname">Climate Tech</div>
             <div class="tcd">Sustainability, carbon tracking and green energy tools.</div>
           </div>
-          <div class="tc"><span class="tcico"></span>
+          <div class="tc" data-track="health"><span class="tcico"></span>
             <div class="tcn">04</div>
             <div class="tcname">Health &amp; MedTech</div>
             <div class="tcd">Diagnostics AI, mental wellness and patient care innovation.</div>
           </div>
-          <div class="tc"><span class="tcico"></span>
+          <div class="tc" data-track="smart-cities"><span class="tcico"></span>
             <div class="tcn">05</div>
             <div class="tcname">Smart Cities</div>
             <div class="tcd">IoT, civic tech, mobility and urban intelligence.</div>
           </div>
-          <div class="tc"><span class="tcico"></span>
+          <div class="tc" data-track="open-innovation"><span class="tcico"></span>
             <div class="tcn">06</div>
             <div class="tcname">Open Innovation</div>
             <div class="tcd">No constraints. Build ideas that don't fit a box.</div>
@@ -2029,6 +2251,22 @@
       <div><a href="mailto:hypnexis@muj.manipal.edu">hypnexis@muj.manipal.edu</a></div>
     </footer>
   </main>
+
+  <!-- Track problem statements panel — filled by the script when a track
+       card is opened after release. -->
+  <div class="pm" id="pm" hidden>
+    <div class="pm-panel" id="pmPanel" role="dialog" aria-modal="true" aria-labelledby="pmTitle" tabindex="-1">
+      <div class="pm-head">
+        <div>
+          <span class="eye" id="pmEye">Track</span>
+          <h3 class="pm-title" id="pmTitle">Track</h3>
+          <div class="pm-sub" id="pmSub"></div>
+        </div>
+        <button type="button" class="pm-close" id="pmClose">CLOSE ✕</button>
+      </div>
+      <ol class="pm-list" id="pmList"></ol>
+    </div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -2760,6 +2998,7 @@
       if (!scrollQueued) { scrollQueued = true; requestAnimationFrame(onScrollFrame); }
     }, { passive: true });
     document.addEventListener('keydown', function (e) {
+      if (document.documentElement.classList.contains('pm-lock')) return; // statements panel is open
       if (e.key === 'ArrowDown' || e.key === 'PageDown') gos(Math.min(curSec + 1, ALL.length - 1));
       if (e.key === 'ArrowUp' || e.key === 'PageUp') gos(Math.max(curSec - 1, 0));
     });
@@ -2782,28 +3021,20 @@
 
     /* ====================================================
        PROBLEM STATEMENTS — release config
-       ► at   : release time (IST). Before it, the card shows a countdown.
-       ► file : where the PDF will live. The card goes live on its own as
-                soon as this file exists on the site AND the release time
-                has passed — just upload the PDF with exactly this name
-                into assets/problem-statements/. No code change needed.
-       ► when : the date/time text shown on the card.
-       The first entry is the main card; the second is the smaller
-       "Additional Problem Statements" slot from the timeline.
+       ► PS_DATA_FILE : the one file that holds every problem statement.
+                        Upload it at release time; the countdown card goes
+                        live and the track cards open their statements on
+                        their own. Format: assets/problem-statements/README.md
+       ► PS_RELEASES  : release times (IST). Before a time passes nothing
+                        from that release is shown, even if the file has it.
+                        The first entry is the main countdown card; the
+                        second is the 6:15 PM "Additional" slot, filled by
+                        statements marked "additional": true in the file.
     ==================================================== */
+    var PS_DATA_FILE = 'assets/problem-statements/problem-statements.json';
     var PS_RELEASES = [
-      {
-        id: 'psMain',
-        at: '2026-10-24T11:30:00+05:30',
-        when: '24 Oct 2026 · 11:30 AM IST',
-        file: 'assets/problem-statements/hypnexis26-problem-statements.pdf'
-      },
-      {
-        id: 'psExtra',
-        at: '2026-10-24T18:15:00+05:30',
-        when: '24 Oct 2026 · 6:15 PM IST',
-        file: 'assets/problem-statements/hypnexis26-additional-problem-statements.pdf'
-      }
+      { id: 'psMain', at: '2026-10-24T11:30:00+05:30', when: '24 Oct 2026 · 11:30 AM IST' },
+      { id: 'psExtra', at: '2026-10-24T18:15:00+05:30', when: '24 Oct 2026 · 6:15 PM IST', additional: true }
     ];
     // Heading + intro text for each state of the main card.
     var PS_COPY = {
@@ -2813,57 +3044,66 @@
       },
       waiting: {
         h: 'Dropping <em>Now</em>',
-        p: "It's release time. The problem statements are being published and will appear here in a moment, no need to refresh."
+        p: "It's release time. The problem statements are being published and will appear in a moment, no need to refresh."
       },
       live: {
         h: 'Now <em>Live</em>',
-        p: "The HYPNEXIS '26 problem statements are out. Open the PDF to read every statement in full."
+        p: "The HYPNEXIS '26 problem statements are out. Open any track below to read its problem statements."
       }
     };
 
     (function () {
       var main = PS_RELEASES[0], extra = PS_RELEASES[1];
+      if (!main || !document.getElementById(main.id)) return;
       var headEl = document.getElementById('psHeading');
       var introEl = document.getElementById('psIntro');
-      var previewEl = document.getElementById('psPreview');
-      if (!main || !document.getElementById(main.id)) return;
+      var noteEl = document.getElementById('trkNote');
+      var noteTxt = document.getElementById('trkNoteTxt');
+      var cards = Array.prototype.slice.call(document.querySelectorAll('#tgrid .tc[data-track]'));
       var STATUS = { locked: 'Locked', waiting: 'Publishing', live: 'Live' };
+
+      var all = null;          // every valid statement in the file, once loaded
+      var rawSeen = '';        // last file contents, to skip needless re-renders
+      var fetching = false, lastFetch = 0;
 
       function each(root, sel, fn) { Array.prototype.forEach.call(root.querySelectorAll(sel), fn); }
       function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function plural(n, word) { return n + ' ' + word + (n === 1 ? '' : 's'); }
 
       PS_RELEASES.forEach(function (r) {
         r.el = document.getElementById(r.id);
         r.time = Date.parse(r.at);
         r.state = '';
-        r.found = false;
-        r.checking = false;
-        r.lastCheck = 0;
-        if (!r.el) return;
-        each(r.el, '[data-ps-when]', function (e) { e.textContent = r.when; });
-        each(r.el, '[data-ps-view]', function (a) { a.setAttribute('href', r.file); });
-        each(r.el, '[data-ps-dl]', function (a) {
-          a.setAttribute('href', r.file);
-          a.setAttribute('download', r.file.split('/').pop());
-        });
+        if (r.el) each(r.el, '[data-ps-when]', function (e) { e.textContent = r.when; });
       });
 
-      // Is the PDF on the site yet? HEAD keeps it cheap; the query string
-      // and no-store stop a cached "not found" from hiding a fresh upload.
-      function checkFile(r) {
-        if (r.checking || !window.fetch) return;
-        r.checking = true;
-        r.lastCheck = Date.now();
-        fetch(r.file + '?t=' + Date.now(), { method: 'HEAD', cache: 'no-store' })
-          .then(function (res) {
-            var type = res.headers.get('content-type') || '';
-            if (res.ok && type.indexOf('text/html') === -1) r.found = true;
+      // Statements the visitor may see right now: the "additional" ones stay
+      // hidden until their own release time.
+      function visible(now) {
+        if (!all) return [];
+        return all.filter(function (s) { return !s.additional || (extra && now >= extra.time); });
+      }
+
+      function load() {
+        if (fetching || !window.fetch) return;
+        fetching = true;
+        lastFetch = Date.now();
+        fetch(PS_DATA_FILE + '?t=' + Date.now(), { cache: 'no-store' })
+          .then(function (res) { return res.ok ? res.text() : null; })
+          .then(function (txt) {
+            if (txt === null || txt === rawSeen) return;
+            var j = JSON.parse(txt);
+            var list = Array.isArray(j) ? j : (j && j.statements);
+            if (!Array.isArray(list)) throw new Error('no "statements" list');
+            all = list.filter(function (s) {
+              return s && typeof s.track === 'string' && typeof s.title === 'string' && s.title.trim();
+            });
+            rawSeen = txt;
+            renderTracks();
+            if (pmKey) openTrack(pmKey, true);
           })
-          .catch(function () { })
-          .then(function () {
-            r.checking = false;
-            if (r.found) tick();
-          });
+          .catch(function (err) { if (window.console) console.warn('Problem statements file not readable yet:', err); })
+          .then(function () { fetching = false; tick(); });
       }
 
       function showCountdown(r, ms) {
@@ -2882,51 +3122,199 @@
         }
       }
 
-      // Desktop-only inline preview. Phone browsers can't show a PDF inside
-      // a page, so there the View / Download buttons do the job instead.
-      function ensurePreview() {
-        if (!previewEl || previewEl.firstChild) return;
-        if (!(window.matchMedia && window.matchMedia('(min-width: 900px) and (pointer: fine)').matches)) return;
-        var f = document.createElement('iframe');
-        f.src = main.file + '#view=FitH';
-        f.title = "HYPNEXIS '26 problem statements (PDF)";
-        f.loading = 'lazy';
-        previewEl.appendChild(f);
-        previewEl.hidden = false;
-        // The custom cursor can't follow the mouse inside the PDF frame, so
-        // hide it there instead of leaving it stuck at the frame's edge.
-        var c1 = document.getElementById('cur'), c2 = document.getElementById('cur2');
-        previewEl.addEventListener('mouseenter', function () { if (c1) c1.style.opacity = '0'; if (c2) c2.style.opacity = '0'; });
-        previewEl.addEventListener('mouseleave', function () { if (c1) c1.style.opacity = ''; if (c2) c2.style.opacity = ''; });
+      /* ---------- Track cards ---------- */
+      function trackName(card) { var n = card.querySelector('.tcname'); return n ? n.textContent : ''; }
+
+      function renderTracks() {
+        var now = Date.now();
+        var list = main.state === 'live' ? visible(now) : [];
+        cards.forEach(function (card) {
+          var key = card.getAttribute('data-track');
+          var mine = list.filter(function (s) { return s.track === key; });
+          var fresh = mine.filter(function (s) { return s.additional; }).length;
+          var more = card.querySelector('.tc-more');
+          if (!mine.length) {
+            card.classList.remove('tc-open');
+            ['role', 'tabindex', 'aria-haspopup', 'aria-label'].forEach(function (a) { card.removeAttribute(a); });
+            if (more) more.parentNode.removeChild(more);
+            return;
+          }
+          card.classList.add('tc-open');
+          card.setAttribute('role', 'button');
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('aria-haspopup', 'dialog');
+          card.setAttribute('aria-label', trackName(card) + ': ' + plural(mine.length, 'problem statement'));
+          if (!more) {
+            more = document.createElement('div');
+            more.className = 'tc-more';
+            card.appendChild(more);
+          }
+          more.textContent = '';
+          var label = document.createElement('span');
+          label.textContent = plural(mine.length, 'problem statement');
+          more.appendChild(label);
+          if (fresh) {
+            var nw = document.createElement('span');
+            nw.className = 'tc-new';
+            nw.textContent = fresh + ' NEW';
+            more.appendChild(nw);
+          }
+          var arrow = document.createElement('span');
+          arrow.className = 'tc-arrow';
+          arrow.setAttribute('aria-hidden', 'true');
+          arrow.textContent = '→';
+          more.appendChild(arrow);
+        });
+        if (noteEl && noteTxt) {
+          var open = cards.some(function (c) { return c.classList.contains('tc-open'); });
+          noteEl.classList.toggle('is-live', open);
+          noteTxt.textContent = open
+            ? 'Problem statements are live · open a track to read them'
+            : 'Problem statements unlock here · 24 Oct · 11:30 AM IST';
+        }
       }
 
+      /* ---------- Statements panel ---------- */
+      var pm = document.getElementById('pm');
+      var pmPanel = document.getElementById('pmPanel');
+      var pmClose = document.getElementById('pmClose');
+      var pmKey = null, pmReturn = null, pmTimer = null;
+
+      function openTrack(key, refresh) {
+        var card = cards.filter(function (c) { return c.getAttribute('data-track') === key; })[0];
+        if (!card || !pm) return;
+        var mine = (main.state === 'live' ? visible(Date.now()) : []).filter(function (s) { return s.track === key; });
+        if (!mine.length) { if (refresh) closeTrack(); return; }
+        var num = card.querySelector('.tcn');
+        document.getElementById('pmEye').textContent = 'Track ' + (num ? num.textContent : '');
+        document.getElementById('pmTitle').textContent = trackName(card);
+        document.getElementById('pmSub').textContent = plural(mine.length, 'problem statement');
+        var listEl = document.getElementById('pmList');
+        listEl.textContent = '';
+        mine.forEach(function (s) {
+          var li = document.createElement('li');
+          li.className = 'pm-item';
+          var meta = document.createElement('div');
+          meta.className = 'pm-meta';
+          if (s.code) {
+            var code = document.createElement('span');
+            code.className = 'pm-code';
+            code.textContent = String(s.code);
+            meta.appendChild(code);
+          }
+          if (s.additional) {
+            var nw = document.createElement('span');
+            nw.className = 'pm-new';
+            nw.textContent = 'NEW · 6:15 PM';
+            meta.appendChild(nw);
+          }
+          li.appendChild(meta);
+          var t = document.createElement('h4');
+          t.className = 'pm-ititle';
+          t.textContent = s.title;
+          li.appendChild(t);
+          if (s.description) {
+            var d = document.createElement('p');
+            d.className = 'pm-desc';
+            d.textContent = String(s.description);
+            li.appendChild(d);
+          }
+          listEl.appendChild(li);
+        });
+        if (refresh) return;
+        pmKey = key;
+        pmReturn = document.activeElement;
+        clearTimeout(pmTimer);
+        pm.hidden = false;
+        pmPanel.scrollTop = 0;
+        document.documentElement.classList.add('pm-lock');
+        void pm.offsetWidth; // let the fade-in start from the hidden state
+        pm.classList.add('open');
+        pmClose.focus();
+      }
+
+      function closeTrack() {
+        if (!pm || pm.hidden) return;
+        pmKey = null;
+        pm.classList.remove('open');
+        document.documentElement.classList.remove('pm-lock');
+        pmTimer = setTimeout(function () { pm.hidden = true; }, REDUCED_MOTION ? 0 : 300);
+        if (pmReturn && pmReturn.focus) pmReturn.focus();
+      }
+
+      cards.forEach(function (card) {
+        card.addEventListener('click', function () {
+          if (card.classList.contains('tc-open')) openTrack(card.getAttribute('data-track'));
+        });
+        card.addEventListener('keydown', function (e) {
+          if (!card.classList.contains('tc-open')) return;
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openTrack(card.getAttribute('data-track')); }
+        });
+      });
+      if (pm) {
+        pmClose.addEventListener('click', closeTrack);
+        pm.addEventListener('click', function (e) { if (e.target === pm) closeTrack(); });
+        document.addEventListener('keydown', function (e) {
+          if (pm.hidden) return;
+          if (e.key === 'Escape') { e.stopPropagation(); closeTrack(); }
+        }, true);
+        // Keep keyboard focus inside the panel while it's open.
+        document.addEventListener('focusin', function (e) {
+          if (pm.classList.contains('open') && !pm.contains(e.target)) pmClose.focus();
+        });
+      }
+
+      /* ---------- Clock ---------- */
       var shownCopy = '';
       function tick() {
         var now = Date.now();
+        var list = visible(now);
         PS_RELEASES.forEach(function (r) {
           if (!r.el) return;
-          var s = r.found ? 'live' : (now < r.time ? 'locked' : 'waiting');
+          var has = list.some(function (s) { return !!s.additional === !!r.additional; });
+          var s = now < r.time ? 'locked' : (has ? 'live' : 'waiting');
           if (s !== r.state) {
             r.state = s;
             r.el.setAttribute('data-state', s);
             each(r.el, '[data-ps-status]', function (e) { e.textContent = STATUS[s]; });
+            if (r === main || s === 'live') renderTracks();
           }
           if (s === 'locked') showCountdown(r, r.time - now);
-          if (s === 'waiting' && !document.hidden) {
-            // Every 15 s for the first 10 minutes after release, then every 45 s.
-            var gap = now - r.time < 600000 ? 15000 : 45000;
-            if (now - r.lastCheck >= gap) checkFile(r);
-          }
         });
+
+        // Counts on the cards.
+        var mainCount = list.filter(function (s) { return !s.additional; });
+        var tracks = {};
+        mainCount.forEach(function (s) { tracks[s.track] = 1; });
+        each(main.el, '[data-ps-total]', function (e) {
+          e.textContent = mainCount.length ? plural(mainCount.length, 'problem statement') + ' across ' + plural(Object.keys(tracks).length, 'track') : '';
+        });
+        if (extra && extra.el) {
+          var n = list.filter(function (s) { return s.additional; }).length;
+          each(extra.el, '[data-ps-total]', function (e) { e.textContent = n ? n + ' NEW' : ''; });
+          // The smaller slot appears once the main statements are out (or once
+          // its own time arrives), so the countdown stays the focus.
+          extra.el.hidden = !(main.state === 'live' || extra.state !== 'locked');
+        }
+
         if (main.state !== shownCopy && PS_COPY[main.state]) {
           shownCopy = main.state;
           if (headEl) headEl.innerHTML = PS_COPY[main.state].h;
           if (introEl) introEl.textContent = PS_COPY[main.state].p;
         }
-        // The smaller slot appears once the main statements are out (or once
-        // its own release time arrives), so the countdown stays the focus.
-        if (extra && extra.el) extra.el.hidden = !(main.state === 'live' || extra.state !== 'locked');
-        if (main.state === 'live') ensurePreview();
+
+        // Fetch the file: often while a release is waiting for it (every 15 s
+        // for the first 10 minutes, then 45 s), and every 2 minutes after
+        // that so later fixes and the 6:15 PM additions show up by themselves.
+        if (now >= main.time && !document.hidden) {
+          var waiting = PS_RELEASES.filter(function (r) { return r.state === 'waiting'; });
+          var gap = 120000;
+          if (waiting.length) {
+            var since = now - Math.max.apply(null, waiting.map(function (r) { return r.time; }));
+            gap = since < 600000 ? 15000 : 45000;
+          }
+          if (now - lastFetch >= gap) load();
+        }
       }
 
       tick();
@@ -2984,9 +3372,10 @@
       document.addEventListener('visibilitychange', function () { if (!document.hidden) update(); });
     })();
 
-    // Nav links that point at sections on this page scroll smoothly and keep
-    // the #section in the address bar so the link can be shared.
-    document.querySelectorAll('#nav a[href^="#"]').forEach(function (a) {
+    // Nav links (and buttons marked data-scroll) that point at sections on
+    // this page scroll smoothly and keep the #section in the address bar so
+    // the link can be shared.
+    document.querySelectorAll('#nav a[href^="#"], a[data-scroll]').forEach(function (a) {
       a.addEventListener('click', function (e) {
         var t = document.querySelector(a.getAttribute('href'));
         if (!t) return;
