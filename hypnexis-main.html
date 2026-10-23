@@ -738,116 +738,527 @@
       text-shadow: 0 1px 8px rgba(0, 0, 0, .5);
     }
 
-    /* TIMELINE FLIP CARDS — no backdrop-filter (breaks preserve-3d) */
-    .tl-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin: 48px auto 0;
-      max-width: 720px;
-    }
-
-    .flip-card {
-      height: 130px;
-      perspective: 1000px;
-      cursor: default;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity .7s ease, transform .7s ease;
-    }
-
-    .flip-card.fcvis {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .flip-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform .65s cubic-bezier(.4, 0, .2, 1);
-    }
-
-    .flip-card:hover .flip-inner {
-      transform: rotateY(180deg);
-    }
-
-    .flip-front,
-    .flip-back {
-      position: absolute;
-      inset: 0;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      border: 1px solid rgba(80, 140, 255, .38);
-      display: flex;
-      flex-direction: column;
+    /* TIMELINE — two day panels with a rail. Rows carry data-start/data-end
+       (IST) so the script can mark what's done and what's happening now. */
+    .tl-banner {
+      display: inline-flex;
       align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
       justify-content: center;
-      padding: 18px;
-      border-radius: 2px;
-    }
-
-    .flip-front {
-      background: rgba(8, 20, 68, .94);
-    }
-
-    .flip-back {
-      transform: rotateY(180deg);
-      background: rgba(12, 40, 130, .94);
-      border-color: rgba(100, 170, 255, .55);
-    }
-
-    .flip-front-day {
-      font-family: 'Orbitron', monospace;
-      font-size: 26px;
-      font-weight: 900;
-      color: #ffffff;
-      line-height: 1;
-      text-shadow: 0 0 24px rgba(120, 190, 255, .8);
-    }
-
-    .flip-front-date {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: .18em;
-      color: rgba(160, 210, 255, .9);
-      margin-top: 5px;
-    }
-
-    .flip-front-time {
       font-family: 'Space Mono', monospace;
       font-size: 10px;
-      letter-spacing: .22em;
-      color: rgba(190, 225, 255, .75);
-      margin-top: 4px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(215, 235, 255, .9);
+      padding: 10px 18px;
+      border: 1px solid rgba(120, 190, 255, .45);
+      background: rgba(15, 45, 160, .35);
+      backdrop-filter: blur(10px);
     }
 
-    .flip-hint {
+    .tl-banner[hidden] {
+      display: none;
+    }
+
+    .tl-banner b {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .tl-pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex: none;
+      background: #88ccff;
+      box-shadow: 0 0 10px rgba(136, 204, 255, .9);
+    }
+
+    .tl-banner.is-live {
+      border-color: rgba(111, 255, 210, .5);
+    }
+
+    .tl-banner.is-live .tl-pulse {
+      background: #6fffd2;
+      box-shadow: 0 0 10px #6fffd2;
+      animation: tlpulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes tlpulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .3;
+      }
+    }
+
+    .tl-days {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 40px;
+      text-align: left;
+      align-items: start;
+    }
+
+    .tl-day {
+      background: rgba(8, 22, 72, .5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(80, 140, 255, .25);
+      padding: 24px 24px 12px;
+    }
+
+    .tl-dayhead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 16px;
+      margin-bottom: 4px;
+      border-bottom: 1px solid rgba(80, 140, 255, .2);
+    }
+
+    .tl-daynum {
+      font-family: 'Orbitron', monospace;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(100, 180, 255, .6);
+    }
+
+    .tl-date {
       font-family: 'Space Mono', monospace;
-      font-size: 7px;
-      letter-spacing: .2em;
-      color: rgba(140, 190, 255, .5);
-      position: absolute;
-      bottom: 8px;
-      right: 10px;
+      font-size: 9px;
+      letter-spacing: .26em;
+      color: #88ccff;
+      text-transform: uppercase;
     }
 
-    .flip-title {
+    .tl-list {
+      list-style: none;
+      position: relative;
+    }
+
+    .tl-list::before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 20px;
+      bottom: 20px;
+      width: 1px;
+      background: linear-gradient(to bottom, rgba(120, 180, 255, .55), rgba(120, 180, 255, .12));
+    }
+
+    .tl-item {
+      position: relative;
+      padding: 12px 10px 12px 28px;
+      transition: opacity .4s, background .4s;
+    }
+
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: 1px;
+      top: 17px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1px solid rgba(140, 195, 255, .7);
+      background: #061336;
+    }
+
+    .tl-time {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      color: rgba(160, 205, 255, .85);
+      margin-bottom: 4px;
+    }
+
+    .tl-act {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.45;
+      color: rgba(220, 235, 255, .92);
+    }
+
+    /* Milestones: releases, announcements, finals */
+    .tl-key .tl-act {
+      color: #fff;
+      text-shadow: 0 0 14px rgba(100, 180, 255, .45);
+    }
+
+    .tl-key::before {
+      background: #88ccff;
+      border-color: #cfe9ff;
+      box-shadow: 0 0 10px rgba(120, 190, 255, .9);
+    }
+
+    .tl-item.is-done {
+      opacity: .4;
+    }
+
+    .tl-item.is-now {
+      background: linear-gradient(90deg, rgba(40, 110, 255, .24), rgba(40, 110, 255, 0));
+    }
+
+    .tl-item.is-now::before {
+      background: #6fffd2;
+      border-color: #6fffd2;
+      box-shadow: 0 0 0 4px rgba(111, 255, 210, .14), 0 0 14px rgba(111, 255, 210, .8);
+      animation: tlpulse 1.6s ease-in-out infinite;
+    }
+
+    .tl-item.is-now .tl-time::after {
+      content: 'NOW';
+      margin-left: 10px;
+      font-weight: 700;
+      letter-spacing: .24em;
+      color: #6fffd2;
+    }
+
+    /* PROBLEM STATEMENTS — one card whose data-state (locked / waiting /
+       live) decides which block is shown. All copy, times and file paths
+       live in PS_RELEASES / PS_COPY in the script. */
+    .ps-card {
+      position: relative;
+      max-width: 620px;
+      margin: 44px auto 0;
+      padding: 38px 30px 36px;
+      background: rgba(8, 22, 72, .55);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(80, 140, 255, .3);
+      overflow: hidden;
+      transition: border-color .6s, box-shadow .6s;
+    }
+
+    .ps-card::before,
+    .ps-card::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      pointer-events: none;
+    }
+
+    .ps-card::before {
+      top: 0;
+      left: 0;
+      border-top: 2px solid #88ccff;
+      border-left: 2px solid #88ccff;
+    }
+
+    .ps-card::after {
+      bottom: 0;
+      right: 0;
+      border-bottom: 2px solid #88ccff;
+      border-right: 2px solid #88ccff;
+    }
+
+    .ps-card>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .ps-card>.ps-sweep {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: linear-gradient(105deg, transparent 35%, rgba(160, 215, 255, .26) 50%, transparent 65%);
+      transform: translateX(-120%);
+    }
+
+    .ps-card[data-state="live"] {
+      border-color: rgba(130, 200, 255, .6);
+      box-shadow: 0 0 60px rgba(60, 130, 255, .25), inset 0 0 40px rgba(60, 130, 255, .12);
+    }
+
+    .ps-card.vis[data-state="live"]>.ps-sweep {
+      animation: pssweep 1.6s ease-out .25s 1 both;
+    }
+
+    @keyframes pssweep {
+      to {
+        transform: translateX(120%);
+      }
+    }
+
+    .ps-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: #cfe6ff;
+      padding: 7px 14px;
+      border: 1px solid rgba(120, 180, 255, .4);
+      margin-bottom: 24px;
+    }
+
+    .ps-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #88ccff;
+      box-shadow: 0 0 8px #88ccff;
+    }
+
+    [data-state="waiting"] .ps-dot {
+      animation: tlpulse .9s ease-in-out infinite;
+    }
+
+    [data-state="live"] .ps-dot {
+      background: #6fffd2;
+      box-shadow: 0 0 10px #6fffd2;
+      animation: tlpulse 1.6s ease-in-out infinite;
+    }
+
+    [data-state="live"] .ps-status {
+      border-color: rgba(111, 255, 210, .5);
+      color: #dffff5;
+    }
+
+    .ps-lock {
+      display: block;
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 18px;
+      overflow: visible;
+      color: #a8d8ff;
+      filter: drop-shadow(0 0 14px rgba(100, 180, 255, .6));
+    }
+
+    .ps-shackle {
+      transform-box: view-box;
+      transform-origin: 32px 22px;
+      transition: transform .9s cubic-bezier(.3, 1.5, .5, 1);
+    }
+
+    [data-state="live"] .ps-shackle {
+      transform: translateY(-7px) rotate(16deg);
+    }
+
+    [data-state="live"] .ps-lock {
+      color: #c9f6ff;
+      filter: drop-shadow(0 0 18px rgba(111, 255, 210, .55));
+    }
+
+    .ps-when {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: #88ccff;
+      margin-bottom: 22px;
+    }
+
+    .ps-count,
+    .ps-wait,
+    .ps-live {
+      display: none;
+    }
+
+    [data-state="locked"] .ps-count {
+      display: flex;
+    }
+
+    [data-state="waiting"] .ps-wait,
+    [data-state="live"] .ps-live {
+      display: block;
+    }
+
+    [data-state="live"] .ps-when {
+      display: none;
+    }
+
+    .ps-count {
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .ps-unit {
+      min-width: 84px;
+      padding: 16px 8px 12px;
+      border: 1px solid rgba(100, 160, 255, .3);
+      background: rgba(5, 16, 56, .6);
+    }
+
+    .ps-unit[hidden] {
+      display: none;
+    }
+
+    .ps-num {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 900;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 0 24px rgba(100, 180, 255, .7);
+    }
+
+    .ps-lbl {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: .3em;
+      color: rgba(170, 210, 255, .7);
+      margin-top: 8px;
+    }
+
+    .ps-wait p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(210, 230, 255, .9);
+    }
+
+    .ps-bar {
+      position: relative;
+      width: 180px;
+      height: 2px;
+      margin: 18px auto 0;
+      overflow: hidden;
+      background: rgba(120, 180, 255, .15);
+    }
+
+    .ps-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -40%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, #a8d8ff, transparent);
+      animation: psscan 1.2s linear infinite;
+    }
+
+    @keyframes psscan {
+      to {
+        left: 100%;
+      }
+    }
+
+    .ps-live-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(17px, 2.6vw, 23px);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+      text-shadow: 0 0 26px rgba(100, 180, 255, .6);
+    }
+
+    .ps-live-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: #88ccff;
+      margin-bottom: 26px;
+    }
+
+    .ps-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Second, smaller release slot (the 6:15 PM additional statements) */
+    .ps-next {
+      max-width: 620px;
+      margin: 14px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 22px;
+      text-align: left;
+      background: rgba(8, 22, 72, .45);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(80, 140, 255, .25);
+      transition: border-color .6s;
+    }
+
+    .ps-next[hidden] {
+      display: none;
+    }
+
+    .ps-next[data-state="live"] {
+      border-color: rgba(111, 255, 210, .45);
+    }
+
+    .ps-next-name {
       font-family: 'Orbitron', monospace;
       font-size: 12px;
       font-weight: 700;
+      letter-spacing: .04em;
       color: #fff;
-      text-align: center;
-      margin-bottom: 8px;
-      line-height: 1.3;
+      margin-bottom: 6px;
     }
 
-    .flip-desc {
-      font-size: 11px;
-      line-height: 1.7;
-      color: rgba(200, 228, 255, .9);
-      text-align: center;
+    .ps-next-when {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #88ccff;
+    }
+
+    .ps-next-side {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(200, 228, 255, .85);
+      white-space: nowrap;
+    }
+
+    .ps-count-txt {
+      display: none;
+    }
+
+    [data-state="locked"] .ps-count-txt {
+      display: inline;
+    }
+
+    .ps-next .ps-btns {
+      gap: 8px;
+    }
+
+    .ps-next .bp,
+    .ps-next .bo {
+      padding: 11px 20px;
+    }
+
+    /* Inline PDF preview — added by the script on wide, mouse-driven screens
+       only (phone browsers don't render PDFs inside a page). */
+    .ps-preview {
+      max-width: 980px;
+      margin: 18px auto 0;
+      padding: 10px;
+      border: 1px solid rgba(80, 140, 255, .3);
+      background: rgba(5, 16, 56, .7);
+    }
+
+    .ps-preview[hidden] {
+      display: none;
+    }
+
+    .ps-preview iframe {
+      display: block;
+      width: 100%;
+      height: 78vh;
+      border: 0;
+      background: #0b1a4a;
     }
 
     /* DOMAIN CARDS */
@@ -1094,8 +1505,35 @@
         max-width: none;
       }
 
-      .tl-grid {
+      .tl-days {
         grid-template-columns: 1fr;
+      }
+
+      .tl-day {
+        padding: 20px 16px 8px;
+      }
+
+      .ps-card {
+        padding: 32px 16px 30px;
+      }
+
+      .ps-count {
+        gap: 8px;
+      }
+
+      .ps-unit {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 84px;
+      }
+
+      .ps-next {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .ps-next-side {
+        white-space: normal;
       }
 
       footer {
@@ -1115,6 +1553,25 @@
 
       .stat {
         padding: 18px 22px;
+      }
+    }
+
+    @media(max-width:420px) {
+      #nav {
+        padding: 14px 14px;
+      }
+
+      .nlinks {
+        gap: 10px;
+      }
+
+      .nlink,
+      .nreg {
+        letter-spacing: .08em;
+      }
+
+      .nreg {
+        padding: 9px 12px;
       }
     }
 
@@ -1165,6 +1622,8 @@
   <nav id="nav">
     <div class="nbrand"><img class="nav-logo" src="images/hypnexis-logo.png" alt="HYPNEXIS '26"></div>
     <div class="nlinks">
+      <a href="#problem-statements" class="nlink">PROBLEMS</a>
+      <a href="#timeline" class="nlink">TIMELINE</a>
       <a href="hypnexis-team.html" class="nlink">TEAM</a>
       <a href="https://unstop.com/o/Ypwe6cm?utm_medium=Share&amp;utm_source=yotjkfqe49657&amp;utm_campaign=Competitions"
         class="nreg" id="navreg" target="_blank" rel="noopener">REGISTER NOW</a>
@@ -1174,9 +1633,11 @@
     <button type="button" class="sd on" data-goto="0" aria-label="Go to Home"></button>
     <button type="button" class="sd" data-goto="1" aria-label="Go to Title"></button>
     <button type="button" class="sd" data-goto="2" aria-label="Go to About"></button>
-    <button type="button" class="sd" data-goto="3" aria-label="Go to Tracks"></button>
-    <button type="button" class="sd" data-goto="4" aria-label="Go to Campus Ambassador"></button>
-    <button type="button" class="sd" data-goto="5" aria-label="Go to Prize Pool"></button>
+    <button type="button" class="sd" data-goto="3" aria-label="Go to Problem Statements"></button>
+    <button type="button" class="sd" data-goto="4" aria-label="Go to Timeline"></button>
+    <button type="button" class="sd" data-goto="5" aria-label="Go to Tracks"></button>
+    <button type="button" class="sd" data-goto="6" aria-label="Go to Campus Ambassador"></button>
+    <button type="button" class="sd" data-goto="7" aria-label="Go to Prize Pool"></button>
   </div>
 
   <section id="s0">
@@ -1253,51 +1714,159 @@
       </div>
     </section>
 
-    <!-- S3: TIMELINE — hidden until schedule is finalized. Structure kept intact for easy restore.
-  <section class="sec" id="s3" style="padding-top:60px;">
-    <div class="sline"></div>
-    <div class="sec-inner">
-      <span class="eye rv">Event Schedule</span>
-      <h2 class="sh rv d1">The <em>Timeline</em></h2>
-      <div class="sdv rv d1"></div>
-      <p class="rv d2" style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.22em;color:rgba(160,205,255,.6);text-transform:uppercase;margin-bottom:4px;">HOVER TO REVEAL</p>
-      <div class="tl-grid" id="tl-grid">
-        <div class="flip-card"><div class="flip-inner">
-          <div class="flip-front"><div class="flip-front-day">DAY 1</div><div class="flip-front-date">DAY 1</div><div class="flip-front-time">09:00 AM</div><span class="flip-hint">hover →</span></div>
-          <div class="flip-back"><div class="flip-title">Registration &amp; Check-in</div><div class="flip-desc">Arrive at MUJ campus, collect your hackathon kit and meet your team.</div></div>
-        </div></div>
-        <div class="flip-card"><div class="flip-inner">
-          <div class="flip-front"><div class="flip-front-day">DAY 1</div><div class="flip-front-date">DAY 1</div><div class="flip-front-time">11:00 AM</div></div>
-          <div class="flip-back"><div class="flip-title">Opening Ceremony</div><div class="flip-desc">Keynote, problem statement reveal and official 36-hour clock start.</div></div>
-        </div></div>
-        <div class="flip-card"><div class="flip-inner">
-          <div class="flip-front"><div class="flip-front-day">DAY 1</div><div class="flip-front-date">DAY 1</div><div class="flip-front-time">12:00 PM</div></div>
-          <div class="flip-back"><div class="flip-title">Hacking Begins 🚀</div><div class="flip-desc">Build mode on. Mentors go live. The clock is ticking.</div></div>
-        </div></div>
-        <div class="flip-card"><div class="flip-inner">
-          <div class="flip-front"><div class="flip-front-day">DAY 1</div><div class="flip-front-date">DAY 1</div><div class="flip-front-time">08:00 PM</div></div>
-          <div class="flip-back"><div class="flip-title">Tech Workshops</div><div class="flip-desc">Live sessions — AI/ML, Web3, Cloud APIs by industry experts.</div></div>
-        </div></div>
-        <div class="flip-card"><div class="flip-inner">
-          <div class="flip-front"><div class="flip-front-day">DAY 2</div><div class="flip-front-date">DAY 2</div><div class="flip-front-time">12:00 AM</div></div>
-          <div class="flip-back"><div class="flip-title">Midnight Check-in</div><div class="flip-desc">Progress review with mentors. Midnight snacks provided.</div></div>
-        </div></div>
-        <div class="flip-card"><div class="flip-inner">
-          <div class="flip-front"><div class="flip-front-day">DAY 2</div><div class="flip-front-date">DAY 2</div><div class="flip-front-time">12:00 PM</div></div>
-          <div class="flip-back"><div class="flip-title">Final Submission</div><div class="flip-desc">All code locked. Submissions close sharp at noon.</div></div>
-        </div></div>
-        <div class="flip-card"><div class="flip-inner">
-          <div class="flip-front"><div class="flip-front-day">DAY 2</div><div class="flip-front-date">DAY 2</div><div class="flip-front-time">02:00 PM</div></div>
-          <div class="flip-back"><div class="flip-title">Judging Rounds</div><div class="flip-desc">5-min pitch + 10-min Q&amp;A per team before expert panel.</div></div>
-        </div></div>
-        <div class="flip-card"><div class="flip-inner">
-          <div class="flip-front"><div class="flip-front-day">DAY 2</div><div class="flip-front-date">DAY 2</div><div class="flip-front-time">06:00 PM</div></div>
-          <div class="flip-back"><div class="flip-title">Awards Ceremony 🏆</div><div class="flip-desc">Winners announced. ₹10 Lakh+ distributed. Glory awarded.</div></div>
-        </div></div>
+    <!-- PROBLEM STATEMENTS
+       Shows a countdown until release time, then switches to the live view
+       by itself as soon as the PDF is found on the site. Release times and
+       file paths are set in PS_RELEASES in the script at the bottom. -->
+    <section class="sec" id="problem-statements">
+      <div class="sline"></div>
+      <div class="sec-inner">
+        <span class="eye rv">Problem Statements</span>
+        <h2 class="sh rv d1" id="psHeading">Releasing <em>Soon</em></h2>
+        <div class="sdv rv d1"></div>
+        <p class="sp rv d2" id="psIntro">The HYPNEXIS '26 problem statements will be released here at 11:30 AM on Saturday,
+          24 October. This section updates by itself the moment they go live.</p>
+
+        <div class="ps-card rv d3" id="psMain" data-state="locked">
+          <span class="ps-sweep"></span>
+          <div class="ps-status"><span class="ps-dot"></span><span data-ps-status>Locked</span></div>
+          <svg class="ps-lock" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path class="ps-shackle" d="M16 22 V15 a8 8 0 0 1 16 0 V22" />
+            <rect x="10" y="22" width="28" height="20" rx="3" />
+            <circle cx="24" cy="31" r="2.4" />
+            <path d="M24 33.4 V37" />
+          </svg>
+          <div class="ps-when" data-ps-when>24 Oct 2026 · 11:30 AM IST</div>
+
+          <div class="ps-count" role="timer" aria-label="Time until problem statements are released">
+            <div class="ps-unit" data-ps-dunit hidden>
+              <div class="ps-num" data-ps-d>--</div>
+              <div class="ps-lbl">DAYS</div>
+            </div>
+            <div class="ps-unit">
+              <div class="ps-num" data-ps-h>--</div>
+              <div class="ps-lbl">HRS</div>
+            </div>
+            <div class="ps-unit">
+              <div class="ps-num" data-ps-m>--</div>
+              <div class="ps-lbl">MIN</div>
+            </div>
+            <div class="ps-unit">
+              <div class="ps-num" data-ps-s>--</div>
+              <div class="ps-lbl">SEC</div>
+            </div>
+          </div>
+
+          <div class="ps-wait">
+            <p>Publishing now — they'll appear here in a moment.</p>
+            <div class="ps-bar"></div>
+          </div>
+
+          <div class="ps-live">
+            <div class="ps-live-title">HYPNEXIS '26 Problem Statements</div>
+            <div class="ps-live-sub">Released · <span data-ps-when>24 Oct 2026 · 11:30 AM IST</span></div>
+            <div class="ps-btns">
+              <a href="#problem-statements" class="bp" data-ps-view target="_blank" rel="noopener">VIEW PROBLEM
+                STATEMENTS →</a>
+              <a href="#problem-statements" class="bo" data-ps-dl download>DOWNLOAD PDF</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps-next" id="psExtra" data-state="locked" hidden>
+          <div>
+            <div class="ps-next-name">Additional Problem Statements</div>
+            <div class="ps-next-when" data-ps-when>24 Oct 2026 · 6:15 PM IST</div>
+          </div>
+          <div class="ps-next-side">
+            <span class="ps-count-txt">Opens in <span data-ps-left>--:--:--</span></span>
+            <span class="ps-wait">Publishing…</span>
+            <div class="ps-live">
+              <div class="ps-btns">
+                <a href="#problem-statements" class="bp" data-ps-view target="_blank" rel="noopener">VIEW →</a>
+                <a href="#problem-statements" class="bo" data-ps-dl download>DOWNLOAD</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps-preview" id="psPreview" hidden></div>
       </div>
-    </div>
-  </section>
-  -->
+    </section>
+
+    <!-- TIMELINE — from the official HYPNEXIS'26 event timeline.
+       data-start / data-end are in IST and drive the "now" highlight; rows
+       with only data-start are one-off announcements. tl-key = milestone. -->
+    <section class="sec" id="timeline">
+      <div class="sline"></div>
+      <div class="sec-inner" style="max-width:1080px;">
+        <span class="eye rv">Event Schedule</span>
+        <h2 class="sh rv d1">The <em>Timeline</em></h2>
+        <div class="sdv rv d1"></div>
+        <p class="tl-banner rv d2" id="tlNow"><span class="tl-pulse"></span><span id="tlNowLbl">Kicks off</span>
+          <b id="tlNowAct">Sat 24 Oct · 10:00 AM IST</b></p>
+
+        <div class="tl-days">
+          <div class="tl-day rv d2">
+            <div class="tl-dayhead"><span class="tl-daynum">DAY 01</span><span class="tl-date">Sat · 24 Oct</span></div>
+            <ol class="tl-list">
+              <li class="tl-item" data-start="2026-10-24T10:00:00+05:30" data-end="2026-10-24T11:30:00+05:30">
+                <span class="tl-time">10:00 AM – 11:30 AM</span><span class="tl-act">Opening Ceremony</span></li>
+              <li class="tl-item tl-key" data-start="2026-10-24T11:30:00+05:30" data-end="2026-10-24T12:30:00+05:30">
+                <span class="tl-time">11:30 AM – 12:30 PM</span><span class="tl-act">Problem Statement Release</span></li>
+              <li class="tl-item" data-start="2026-10-24T12:30:00+05:30" data-end="2026-10-24T14:00:00+05:30">
+                <span class="tl-time">12:30 PM – 2:00 PM</span><span class="tl-act">Lunch Break</span></li>
+              <li class="tl-item" data-start="2026-10-24T14:00:00+05:30" data-end="2026-10-24T17:30:00+05:30">
+                <span class="tl-time">2:00 PM – 5:30 PM</span><span class="tl-act">Round 1: Problem Solving</span></li>
+              <li class="tl-item" data-start="2026-10-24T17:30:00+05:30" data-end="2026-10-24T18:15:00+05:30">
+                <span class="tl-time">5:30 PM – 6:15 PM</span><span class="tl-act">Hi-Tea Break</span></li>
+              <li class="tl-item tl-key" data-start="2026-10-24T18:15:00+05:30" data-end="2026-10-24T20:15:00+05:30">
+                <span class="tl-time">6:15 PM – 8:15 PM</span><span class="tl-act">Additional Problem Statement Release &amp;
+                  Problem Solving</span></li>
+              <li class="tl-item" data-start="2026-10-24T20:15:00+05:30" data-end="2026-10-24T21:30:00+05:30">
+                <span class="tl-time">8:15 PM – 9:30 PM</span><span class="tl-act">Dinner Break</span></li>
+              <li class="tl-item" data-start="2026-10-24T21:30:00+05:30" data-end="2026-10-25T03:00:00+05:30">
+                <span class="tl-time">9:30 PM – 3:00 AM</span><span class="tl-act">Mentorship &amp; Project Development</span>
+              </li>
+            </ol>
+          </div>
+
+          <div class="tl-day rv d3">
+            <div class="tl-dayhead"><span class="tl-daynum">DAY 02</span><span class="tl-date">Sun · 25 Oct</span></div>
+            <ol class="tl-list">
+              <li class="tl-item" data-start="2026-10-25T03:00:00+05:30" data-end="2026-10-25T06:00:00+05:30">
+                <span class="tl-time">3:00 AM – 6:00 AM</span><span class="tl-act">Round 1 Evaluation: PPT, Prototype &amp;
+                  Presentation</span></li>
+              <li class="tl-item" data-start="2026-10-25T06:00:00+05:30" data-end="2026-10-25T06:30:00+05:30">
+                <span class="tl-time">6:00 AM – 6:30 AM</span><span class="tl-act">Evaluation &amp; Shortlisting</span></li>
+              <li class="tl-item tl-key" data-start="2026-10-25T06:30:00+05:30">
+                <span class="tl-time">6:30 AM</span><span class="tl-act">Round 2 Shortlist Announcement</span></li>
+              <li class="tl-item" data-start="2026-10-25T06:30:00+05:30" data-end="2026-10-25T10:00:00+05:30">
+                <span class="tl-time">6:30 AM – 10:00 AM</span><span class="tl-act">Break, Breakfast &amp; Project
+                  Development</span></li>
+              <li class="tl-item" data-start="2026-10-25T10:00:00+05:30" data-end="2026-10-25T11:30:00+05:30">
+                <span class="tl-time">10:00 AM – 11:30 AM</span><span class="tl-act">Round 2 Mentorship</span></li>
+              <li class="tl-item" data-start="2026-10-25T11:30:00+05:30" data-end="2026-10-25T14:00:00+05:30">
+                <span class="tl-time">11:30 AM – 2:00 PM</span><span class="tl-act">Round 2 Presentations</span></li>
+              <li class="tl-item" data-start="2026-10-25T14:00:00+05:30" data-end="2026-10-25T14:30:00+05:30">
+                <span class="tl-time">2:00 PM – 2:30 PM</span><span class="tl-act">Final Evaluation &amp; Deliberation</span>
+              </li>
+              <li class="tl-item tl-key" data-start="2026-10-25T14:30:00+05:30">
+                <span class="tl-time">2:30 PM</span><span class="tl-act">Top 12 Teams Announced for the Final Round</span>
+              </li>
+              <li class="tl-item" data-start="2026-10-25T14:30:00+05:30" data-end="2026-10-25T15:00:00+05:30">
+                <span class="tl-time">2:30 PM – 3:00 PM</span><span class="tl-act">Final Preparations</span></li>
+              <li class="tl-item tl-key" data-start="2026-10-25T15:00:00+05:30" data-end="2026-10-25T16:30:00+05:30">
+                <span class="tl-time">3:00 PM – 4:30 PM</span><span class="tl-act">Final Round Presentations</span></li>
+              <li class="tl-item tl-key" data-start="2026-10-25T16:30:00+05:30" data-end="2026-10-25T18:00:00+05:30">
+                <span class="tl-time">4:30 PM – 6:00 PM</span><span class="tl-act">Closing Ceremony &amp; Winner
+                  Announcement</span></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- S4: TRACKS -->
     <section class="sec" id="s4">
@@ -1527,7 +2096,7 @@
       CUR.style.left = ccx + 'px'; CUR.style.top = ccy + 'px';
       CUR2.style.left = crx + 'px'; CUR2.style.top = cry + 'px';
     })();
-    document.querySelectorAll('a,button,.tc,.ac,.flip-card').forEach(function (el) {
+    document.querySelectorAll('a,button,.tc,.ac,.tl-item').forEach(function (el) {
       el.addEventListener('mouseenter', function () { CUR2.style.width = '46px'; CUR2.style.height = '46px'; CUR2.style.borderColor = 'rgba(160,210,255,.8)'; });
       el.addEventListener('mouseleave', function () { CUR2.style.width = '32px'; CUR2.style.height = '32px'; CUR2.style.borderColor = 'rgba(100,170,255,.5)'; });
     });
@@ -2100,16 +2669,17 @@
     /* ====================================================
        SCROLL + SECTIONS
     ==================================================== */
-    // NOTE: indices below are positional. s4b (Campus Ambassador) sits between
-    // Tracks and Prize, which pushes Prize from index 4 to index 5 — the gos()
-    // calls further down are updated to match.
+    // NOTE: indices below are positional and must match the data-goto values
+    // on the side dots (#sdots) in the same order.
     var ALL = [
-      document.getElementById('s0'),   // 0 — hero
-      document.getElementById('s1'),   // 1 — title
-      document.getElementById('s2'),   // 2 — about
-      document.getElementById('s4'),   // 3 — tracks
-      document.getElementById('s4b'),  // 4 — campus ambassador
-      document.getElementById('s5')    // 5 — prize
+      document.getElementById('s0'),                  // 0 — hero
+      document.getElementById('s1'),                  // 1 — title
+      document.getElementById('s2'),                  // 2 — about
+      document.getElementById('problem-statements'),  // 3 — problem statements
+      document.getElementById('timeline'),            // 4 — timeline
+      document.getElementById('s4'),                  // 5 — tracks
+      document.getElementById('s4b'),                 // 6 — campus ambassador
+      document.getElementById('s5')                   // 7 — prize
     ].filter(Boolean);
     var DOTS = document.querySelectorAll('.sd');
     var curSec = 0;
@@ -2174,19 +2744,6 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.tc').forEach(function (c) { tcObs.observe(c); });
 
-    // Flip card observer
-    var fcObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          var cards = Array.from(document.querySelectorAll('.flip-card'));
-          var idx = cards.indexOf(e.target);
-          setTimeout(function () { e.target.classList.add('fcvis'); }, Math.max(0, idx % 4) * 90);
-          fcObs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.flip-card').forEach(function (c) { fcObs.observe(c); });
-
     // Scroll is rAF-coalesced and passive. Previously this ran on every scroll
     // event and read document.body.scrollHeight each time — a forced synchronous
     // layout per event, which is the main source of scroll jank on long pages
@@ -2221,6 +2778,222 @@
         g.style.opacity = '1';
       });
       c.addEventListener('mouseleave', function () { g.style.opacity = '0'; });
+    });
+
+    /* ====================================================
+       PROBLEM STATEMENTS — release config
+       ► at   : release time (IST). Before it, the card shows a countdown.
+       ► file : where the PDF will live. The card goes live on its own as
+                soon as this file exists on the site AND the release time
+                has passed — just upload the PDF with exactly this name
+                into assets/problem-statements/. No code change needed.
+       ► when : the date/time text shown on the card.
+       The first entry is the main card; the second is the smaller
+       "Additional Problem Statements" slot from the timeline.
+    ==================================================== */
+    var PS_RELEASES = [
+      {
+        id: 'psMain',
+        at: '2026-10-24T11:30:00+05:30',
+        when: '24 Oct 2026 · 11:30 AM IST',
+        file: 'assets/problem-statements/hypnexis26-problem-statements.pdf'
+      },
+      {
+        id: 'psExtra',
+        at: '2026-10-24T18:15:00+05:30',
+        when: '24 Oct 2026 · 6:15 PM IST',
+        file: 'assets/problem-statements/hypnexis26-additional-problem-statements.pdf'
+      }
+    ];
+    // Heading + intro text for each state of the main card.
+    var PS_COPY = {
+      locked: {
+        h: 'Releasing <em>Soon</em>',
+        p: "The HYPNEXIS '26 problem statements will be released here at 11:30 AM on Saturday, 24 October. This section updates by itself the moment they go live."
+      },
+      waiting: {
+        h: 'Dropping <em>Now</em>',
+        p: "It's release time. The problem statements are being published and will appear here in a moment, no need to refresh."
+      },
+      live: {
+        h: 'Now <em>Live</em>',
+        p: "The HYPNEXIS '26 problem statements are out. Open the PDF to read every statement in full."
+      }
+    };
+
+    (function () {
+      var main = PS_RELEASES[0], extra = PS_RELEASES[1];
+      var headEl = document.getElementById('psHeading');
+      var introEl = document.getElementById('psIntro');
+      var previewEl = document.getElementById('psPreview');
+      if (!main || !document.getElementById(main.id)) return;
+      var STATUS = { locked: 'Locked', waiting: 'Publishing', live: 'Live' };
+
+      function each(root, sel, fn) { Array.prototype.forEach.call(root.querySelectorAll(sel), fn); }
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+      PS_RELEASES.forEach(function (r) {
+        r.el = document.getElementById(r.id);
+        r.time = Date.parse(r.at);
+        r.state = '';
+        r.found = false;
+        r.checking = false;
+        r.lastCheck = 0;
+        if (!r.el) return;
+        each(r.el, '[data-ps-when]', function (e) { e.textContent = r.when; });
+        each(r.el, '[data-ps-view]', function (a) { a.setAttribute('href', r.file); });
+        each(r.el, '[data-ps-dl]', function (a) {
+          a.setAttribute('href', r.file);
+          a.setAttribute('download', r.file.split('/').pop());
+        });
+      });
+
+      // Is the PDF on the site yet? HEAD keeps it cheap; the query string
+      // and no-store stop a cached "not found" from hiding a fresh upload.
+      function checkFile(r) {
+        if (r.checking || !window.fetch) return;
+        r.checking = true;
+        r.lastCheck = Date.now();
+        fetch(r.file + '?t=' + Date.now(), { method: 'HEAD', cache: 'no-store' })
+          .then(function (res) {
+            var type = res.headers.get('content-type') || '';
+            if (res.ok && type.indexOf('text/html') === -1) r.found = true;
+          })
+          .catch(function () { })
+          .then(function () {
+            r.checking = false;
+            if (r.found) tick();
+          });
+      }
+
+      function showCountdown(r, ms) {
+        var s = Math.max(0, Math.floor(ms / 1000));
+        var d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+        var q = function (sel) { return r.el.querySelector(sel); };
+        if (q('[data-ps-h]')) {
+          q('[data-ps-d]').textContent = pad(d);
+          q('[data-ps-dunit]').hidden = d === 0;
+          q('[data-ps-h]').textContent = pad(h);
+          q('[data-ps-m]').textContent = pad(m);
+          q('[data-ps-s]').textContent = pad(sec);
+        }
+        if (q('[data-ps-left]')) {
+          q('[data-ps-left]').textContent = (d ? d + 'd ' : '') + pad(h) + ':' + pad(m) + ':' + pad(sec);
+        }
+      }
+
+      // Desktop-only inline preview. Phone browsers can't show a PDF inside
+      // a page, so there the View / Download buttons do the job instead.
+      function ensurePreview() {
+        if (!previewEl || previewEl.firstChild) return;
+        if (!(window.matchMedia && window.matchMedia('(min-width: 900px) and (pointer: fine)').matches)) return;
+        var f = document.createElement('iframe');
+        f.src = main.file + '#view=FitH';
+        f.title = "HYPNEXIS '26 problem statements (PDF)";
+        f.loading = 'lazy';
+        previewEl.appendChild(f);
+        previewEl.hidden = false;
+        // The custom cursor can't follow the mouse inside the PDF frame, so
+        // hide it there instead of leaving it stuck at the frame's edge.
+        var c1 = document.getElementById('cur'), c2 = document.getElementById('cur2');
+        previewEl.addEventListener('mouseenter', function () { if (c1) c1.style.opacity = '0'; if (c2) c2.style.opacity = '0'; });
+        previewEl.addEventListener('mouseleave', function () { if (c1) c1.style.opacity = ''; if (c2) c2.style.opacity = ''; });
+      }
+
+      var shownCopy = '';
+      function tick() {
+        var now = Date.now();
+        PS_RELEASES.forEach(function (r) {
+          if (!r.el) return;
+          var s = r.found ? 'live' : (now < r.time ? 'locked' : 'waiting');
+          if (s !== r.state) {
+            r.state = s;
+            r.el.setAttribute('data-state', s);
+            each(r.el, '[data-ps-status]', function (e) { e.textContent = STATUS[s]; });
+          }
+          if (s === 'locked') showCountdown(r, r.time - now);
+          if (s === 'waiting' && !document.hidden) {
+            // Every 15 s for the first 10 minutes after release, then every 45 s.
+            var gap = now - r.time < 600000 ? 15000 : 45000;
+            if (now - r.lastCheck >= gap) checkFile(r);
+          }
+        });
+        if (main.state !== shownCopy && PS_COPY[main.state]) {
+          shownCopy = main.state;
+          if (headEl) headEl.innerHTML = PS_COPY[main.state].h;
+          if (introEl) introEl.textContent = PS_COPY[main.state].p;
+        }
+        // The smaller slot appears once the main statements are out (or once
+        // its own release time arrives), so the countdown stays the focus.
+        if (extra && extra.el) extra.el.hidden = !(main.state === 'live' || extra.state !== 'locked');
+        if (main.state === 'live') ensurePreview();
+      }
+
+      tick();
+      setInterval(tick, 1000);
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) tick(); });
+    })();
+
+    /* ====================================================
+       TIMELINE — marks finished slots and highlights the one happening
+       now, using the IST times on each row. Checks every 30 seconds.
+    ==================================================== */
+    (function () {
+      var items = Array.prototype.slice.call(document.querySelectorAll('.tl-item'));
+      var banner = document.getElementById('tlNow');
+      var lbl = document.getElementById('tlNowLbl');
+      var act = document.getElementById('tlNowAct');
+      if (!items.length || !banner) return;
+      var startAll = Infinity, endAll = 0;
+      items.forEach(function (li) {
+        li._s = Date.parse(li.getAttribute('data-start'));
+        var e = li.getAttribute('data-end');
+        li._e = e ? Date.parse(e) : null;
+        startAll = Math.min(startAll, li._s);
+        endAll = Math.max(endAll, li._e || li._s);
+      });
+      function text(li, sel) { var n = li.querySelector(sel); return n ? n.textContent.replace(/\s+/g, ' ').trim() : ''; }
+
+      function update() {
+        var now = Date.now(), cur = null, next = null;
+        items.forEach(function (li) {
+          var live = li._e !== null && now >= li._s && now < li._e;
+          var done = !live && now >= (li._e !== null ? li._e : li._s);
+          li.classList.toggle('is-now', live);
+          li.classList.toggle('is-done', done);
+          if (live && !cur) cur = li;
+          if (!live && now < li._s && (!next || li._s < next._s)) next = li;
+        });
+        if (now >= endAll) { banner.hidden = true; return; }
+        banner.hidden = false;
+        banner.classList.toggle('is-live', !!cur);
+        if (now < startAll) {
+          lbl.textContent = 'Kicks off';
+          act.textContent = 'Sat 24 Oct · 10:00 AM IST';
+        } else if (cur) {
+          var until = text(cur, '.tl-time').split('–')[1];
+          lbl.textContent = 'Live now';
+          act.textContent = text(cur, '.tl-act') + (until ? ' · till ' + until.trim() : '');
+        } else if (next) {
+          lbl.textContent = 'Up next';
+          act.textContent = text(next, '.tl-act') + ' · ' + text(next, '.tl-time');
+        }
+      }
+      update();
+      setInterval(update, 30000);
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) update(); });
+    })();
+
+    // Nav links that point at sections on this page scroll smoothly and keep
+    // the #section in the address bar so the link can be shared.
+    document.querySelectorAll('#nav a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var t = document.querySelector(a.getAttribute('href'));
+        if (!t) return;
+        e.preventDefault();
+        t.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+        try { history.replaceState(null, '', a.getAttribute('href')); } catch (err) { }
+      });
     });
   </script>
 </body>
