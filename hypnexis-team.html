@@ -221,63 +221,157 @@
       text-align: left;
     }
 
-    /* TEAM CARDS — reuses .tc (domain card) treatment: same bg, border, blur, hover glow */
+    /* TEAM CARDS — 3:4 portrait cards. Each card wipes in from the bottom
+       (with a scan line) when it scrolls into view; on mouse devices the
+       photo sits under a blue tint that lifts on hover. */
     .tmgrid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 14px;
+      gap: 16px;
     }
 
     .tmc {
-      background: rgba(8, 22, 72, .5);
-      backdrop-filter: blur(12px);
-      padding: 26px 22px;
-      text-align: center;
-      border: 1px solid rgba(80, 140, 255, .25);
-      transition: border-color .3s, box-shadow .3s;
       position: relative;
+      flex: 0 1 228px;
+      width: 228px;
       overflow: hidden;
-      flex: 1 1 260px;
-      max-width: 300px;
+      text-align: left;
+      background: rgba(8, 22, 72, .5);
+      border: 1px solid rgba(80, 140, 255, .28);
+      transition: border-color .4s, box-shadow .4s, transform .4s;
     }
 
-    .tmc:hover {
-      border-color: rgba(130, 200, 255, .6);
-      box-shadow: 0 0 36px rgba(60, 130, 255, .2);
+    .tmc::before,
+    .tmc::after {
+      content: '';
+      position: absolute;
+      z-index: 4;
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+    }
+
+    .tmc::before {
+      top: 0;
+      left: 0;
+      border-top: 2px solid #88ccff;
+      border-left: 2px solid #88ccff;
+    }
+
+    .tmc::after {
+      right: 0;
+      bottom: 0;
+      border-right: 2px solid #88ccff;
+      border-bottom: 2px solid #88ccff;
     }
 
     .tmph {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      margin: 0 auto 18px;
-      border: 1.5px solid rgba(120, 180, 255, .5);
-      background: rgba(15, 40, 140, .5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: relative;
+      aspect-ratio: 3 / 4;
       overflow: hidden;
-      font-family: 'Orbitron', monospace;
-      font-weight: 900;
-      font-size: 20px;
-      color: rgba(190, 220, 255, .85);
+      background: radial-gradient(circle at 50% 32%, rgba(40, 90, 220, .45), rgba(6, 18, 60, .95) 72%);
+      clip-path: inset(100% 0 0 0);
+      transition: clip-path 1.1s cubic-bezier(.77, 0, .18, 1);
+    }
+
+    .tmc.in .tmph {
+      clip-path: inset(0 0 0 0);
     }
 
     .tmph img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      transform: scale(1.25);
+      transition: transform 1.6s cubic-bezier(.2, .8, .2, 1), filter .6s;
+    }
+
+    .tmc.in .tmph img {
+      transform: scale(1);
+    }
+
+    /* Faculty without a photo yet: big initials on a grid */
+    .tmini {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 24%;
+      font-family: 'Orbitron', monospace;
+      font-size: 60px;
+      font-weight: 900;
+      color: rgba(190, 220, 255, .85);
+      text-shadow: 0 0 30px rgba(100, 180, 255, .7);
+      background-image: linear-gradient(rgba(120, 180, 255, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120, 180, 255, .08) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .tmscan {
+      position: absolute;
+      z-index: 3;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      opacity: 0;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, #c9ecff, transparent);
+      box-shadow: 0 0 18px 4px rgba(120, 190, 255, .7);
+    }
+
+    .tmc.in .tmscan {
+      animation: tmscan 1.1s cubic-bezier(.77, 0, .18, 1) both;
+    }
+
+    @keyframes tmscan {
+      0% {
+        bottom: 0;
+        opacity: 1;
+      }
+
+      85% {
+        opacity: 1;
+      }
+
+      100% {
+        bottom: 100%;
+        opacity: 0;
+      }
+    }
+
+    .tminfo {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 60px 16px 16px;
+      background: linear-gradient(to top, rgba(2, 10, 36, .97) 0%, rgba(2, 10, 36, .78) 45%, transparent 100%);
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .7s ease .55s, transform .7s ease .55s;
+    }
+
+    .tmc.in .tminfo {
+      opacity: 1;
+      transform: none;
     }
 
     .tmname {
       font-family: 'Orbitron', monospace;
-      font-size: 19px;
+      font-size: 15px;
       font-weight: 700;
+      line-height: 1.3;
       color: #fff;
-      margin-bottom: 8px;
-      letter-spacing: .04em;
+      margin-bottom: 6px;
+      letter-spacing: .03em;
+      text-shadow: 0 0 18px rgba(80, 160, 255, .5);
     }
 
     .tmrole {
@@ -286,12 +380,45 @@
       letter-spacing: .16em;
       color: #88ccff;
       text-transform: uppercase;
-      margin-bottom: 4px;
     }
 
     .tmdept {
       font-size: 11px;
-      color: rgba(200, 225, 255, .7);
+      color: rgba(200, 225, 255, .75);
+      margin-top: 4px;
+    }
+
+    /* Mouse devices: tinted until hovered, then full colour + slow zoom */
+    @media (hover: hover) {
+      .tmph::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: linear-gradient(160deg, rgba(40, 100, 255, .32), rgba(10, 30, 120, .18));
+        mix-blend-mode: color;
+        transition: opacity .6s;
+      }
+
+      .tmph img {
+        filter: saturate(.8) brightness(.9);
+      }
+
+      .tmc:hover {
+        border-color: rgba(130, 200, 255, .7);
+        box-shadow: 0 0 40px rgba(60, 130, 255, .28);
+        transform: translateY(-4px);
+      }
+
+      .tmc:hover .tmph::before {
+        opacity: 0;
+      }
+
+      .tmc.in:hover .tmph img {
+        filter: none;
+        transform: scale(1.06);
+      }
     }
 
     .tmempty {
@@ -363,13 +490,30 @@
       }
 
       .tmgrid {
-        flex-direction: column;
-        align-items: center;
+        gap: 12px;
       }
 
       .tmc {
-        max-width: 340px;
-        width: 100%;
+        flex: 0 1 calc(50% - 6px);
+        width: auto;
+        max-width: 220px;
+      }
+
+      .tminfo {
+        padding: 44px 12px 12px;
+      }
+
+      .tmname {
+        font-size: 13px;
+      }
+
+      .tmrole {
+        font-size: 8px;
+        letter-spacing: .12em;
+      }
+
+      .tmini {
+        font-size: 44px;
       }
 
       .grouplabel {
@@ -470,9 +614,8 @@
     /* ====================================================
        TEAM DATA
        Add / remove people here — cards render automatically.
-       Drop a real photo file named exactly as `photo` (e.g. "faculty1.jpg")
-       next to this page and it will be picked up automatically.
-       Leave `photo` empty ("") to keep the placeholder initials.
+       Photos are 3:4 portraits (480x640 JPG) in images/team/.
+       Leave `photo` empty ("") to show the person's initials instead.
     ==================================================== */
     // Photo convention: drop the real photo file into images/team/ using the
     // filename already referenced below, then it appears automatically — no
@@ -521,6 +664,32 @@
       return parts.slice(0, 2).map(function (w) { return w[0]; }).join('').toUpperCase();
     }
 
+    // Cards wipe in once they scroll into view AND their photo has loaded,
+    // so a slow photo never reveals as an empty frame.
+    var REDUCED_MOTION = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var revealObs = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        revealObs.unobserve(e.target);
+        e.target._seen = true;
+        tryReveal(e.target);
+        // Never wait more than 2.5 s for a photo.
+        setTimeout(function () { e.target._ready = true; tryReveal(e.target); }, 2500);
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' }) : null;
+
+    function tryReveal(card) {
+      if (card._seen && card._ready) card.classList.add('in');
+    }
+
+    function showInitials(ph, name) {
+      ph.textContent = '';
+      var ini = document.createElement('span');
+      ini.className = 'tmini';
+      ini.textContent = initials(name);
+      ph.appendChild(ini);
+    }
+
     function renderGrid(containerId, people) {
       var el = document.getElementById(containerId);
       el.innerHTML = '';
@@ -531,45 +700,60 @@
         el.appendChild(empty);
         return;
       }
-      people.forEach(function (p) {
+      people.forEach(function (p, i) {
         var card = document.createElement('div');
-        card.className = 'tmc rv vis';
+        card.className = 'tmc';
 
-        var photo = document.createElement('div');
-        photo.className = 'tmph';
+        var ph = document.createElement('div');
+        ph.className = 'tmph';
+        // Stagger the wipe across cards in a group.
+        ph.style.transitionDelay = (i * 0.12) + 's';
         if (p.photo) {
           var img = document.createElement('img');
-          img.src = p.photo;
           img.alt = p.name;
-          img.loading = 'lazy';
-          img.addEventListener('error', function () {
-            photo.textContent = initials(p.name);
-          });
-          photo.appendChild(img);
+          img.decoding = 'async';
+          img.addEventListener('load', function () { card._ready = true; tryReveal(card); });
+          img.addEventListener('error', function () { showInitials(ph, p.name); card._ready = true; tryReveal(card); });
+          img.src = p.photo;
+          ph.appendChild(img);
         } else {
-          photo.textContent = initials(p.name);
+          showInitials(ph, p.name);
+          card._ready = true;
         }
+
+        var scan = document.createElement('span');
+        scan.className = 'tmscan';
+        scan.style.animationDelay = (i * 0.12) + 's';
+
+        var info = document.createElement('div');
+        info.className = 'tminfo';
+        info.style.transitionDelay = (0.55 + i * 0.12) + 's';
 
         var name = document.createElement('div');
         name.className = 'tmname';
         name.textContent = p.name;
-
         var role = document.createElement('div');
         role.className = 'tmrole';
         role.textContent = p.role;
-
-        card.appendChild(photo);
-        card.appendChild(name);
-        card.appendChild(role);
-
+        info.appendChild(name);
+        info.appendChild(role);
         if (p.dept) {
           var dept = document.createElement('div');
           dept.className = 'tmdept';
           dept.textContent = p.dept;
-          card.appendChild(dept);
+          info.appendChild(dept);
         }
 
+        card.appendChild(ph);
+        card.appendChild(scan);
+        card.appendChild(info);
         el.appendChild(card);
+
+        if (revealObs && !REDUCED_MOTION) {
+          revealObs.observe(card);
+        } else {
+          card.classList.add('in');
+        }
       });
     }
 
