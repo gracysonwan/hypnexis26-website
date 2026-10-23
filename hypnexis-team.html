@@ -440,6 +440,9 @@
         <h2 class="grouplabel rv vis">Faculty Convenors</h2>
         <div class="tmgrid" id="facultyGrid"></div>
 
+        <h2 class="grouplabel rv vis">Advisory</h2>
+        <div class="tmgrid" id="advisoryGrid"></div>
+
         <h2 class="grouplabel rv vis">Convenors</h2>
         <div class="tmgrid" id="convenorGrid"></div>
 
@@ -451,9 +454,6 @@
 
         <h2 class="grouplabel rv vis">Executive Lead</h2>
         <div class="tmgrid" id="executiveLeadGrid"></div>
-
-        <h2 class="grouplabel rv vis">Advisory</h2>
-        <div class="tmgrid" id="advisoryGrid"></div>
       </div>
     </section>
   </main>
@@ -575,11 +575,11 @@
 
     renderGrid('programChairGrid', programChair);
     renderGrid('facultyGrid', facultyCoordinators);
+    renderGrid('advisoryGrid', advisory);
     renderGrid('convenorGrid', convenors);
     renderGrid('coConvenorGrid', coConvenors);
     renderGrid('technicalLeadGrid', technicalLead);
     renderGrid('executiveLeadGrid', executiveLead);
-    renderGrid('advisoryGrid', advisory);
   </script>
 </body>
 
