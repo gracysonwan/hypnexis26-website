@@ -1342,7 +1342,7 @@
     .pm-panel {
       position: relative;
       width: 100%;
-      max-width: 760px;
+      max-width: 920px;
       max-height: calc(100vh - 48px);
       overflow-y: auto;
       overscroll-behavior: contain;
@@ -1465,6 +1465,73 @@
       line-height: 1.85;
       color: rgba(215, 232, 255, .9);
       white-space: pre-line;
+    }
+
+    .pm-desc+.pm-desc {
+      margin-top: 10px;
+    }
+
+    .pm-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 230px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .pm-body-1 {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pm-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: #88ccff;
+      margin: 16px 0 6px;
+    }
+
+    .pm-label:empty {
+      display: none;
+    }
+
+    .pm-main>.pm-label:first-child,
+    .pm-side>.pm-label:first-child {
+      margin-top: 0;
+    }
+
+    .pm-side {
+      padding: 16px 16px 14px;
+      background: rgba(20, 50, 140, .35);
+      border: 1px solid rgba(100, 160, 255, .28);
+    }
+
+    .pm-chal {
+      list-style: none;
+    }
+
+    .pm-chal li {
+      position: relative;
+      padding-left: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(220, 236, 255, .92);
+    }
+
+    .pm-chal li+li {
+      margin-top: 9px;
+    }
+
+    .pm-chal li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: .62em;
+      width: 6px;
+      height: 6px;
+      background: #88ccff;
+      box-shadow: 0 0 8px rgba(136, 204, 255, .8);
     }
 
     /* DOMAIN CARDS */
@@ -1750,6 +1817,11 @@
       .pm-panel {
         max-height: 92vh;
         padding: 0 18px 22px;
+      }
+
+      .pm-body {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
       }
 
       .pm-head {
@@ -2050,10 +2122,10 @@
             <div class="tcname">Smart Cities</div>
             <div class="tcd">IoT, civic tech, mobility and urban intelligence.</div>
           </div>
-          <div class="tc" data-track="open-innovation"><span class="tcico"></span>
+          <div class="tc" data-track="hardware"><span class="tcico"></span>
             <div class="tcn">06</div>
-            <div class="tcname">Open Innovation</div>
-            <div class="tcd">No constraints. Build ideas that don't fit a box.</div>
+            <div class="tcname">Hardware</div>
+            <div class="tcd">Open innovation with a working hardware prototype. Pick a real problem and build it.</div>
           </div>
         </div>
       </div>
@@ -3213,12 +3285,47 @@
           t.className = 'pm-ititle';
           t.textContent = s.title;
           li.appendChild(t);
-          if (s.description) {
-            var d = document.createElement('p');
-            d.className = 'pm-desc';
-            d.textContent = String(s.description);
-            li.appendChild(d);
+          var body = document.createElement('div');
+          body.className = 'pm-body';
+          var main = document.createElement('div');
+          main.className = 'pm-main';
+          function section(label, text) {
+            if (!text) return;
+            var h = document.createElement('div');
+            h.className = 'pm-label';
+            h.textContent = label;
+            main.appendChild(h);
+            String(text).split(/\n\s*\n/).forEach(function (para) {
+              var d = document.createElement('p');
+              d.className = 'pm-desc';
+              d.textContent = para.trim();
+              main.appendChild(d);
+            });
           }
+          section('Problem statement', s.problem);
+          section('Explanation', s.explanation);
+          if (s.description) section(s.problem || s.explanation ? 'Details' : '', s.description);
+          body.appendChild(main);
+          if (Array.isArray(s.challenges) && s.challenges.length) {
+            var box = document.createElement('div');
+            box.className = 'pm-side';
+            var bh = document.createElement('div');
+            bh.className = 'pm-label';
+            bh.textContent = 'Key challenges';
+            box.appendChild(bh);
+            var ul = document.createElement('ul');
+            ul.className = 'pm-chal';
+            s.challenges.forEach(function (c) {
+              var it = document.createElement('li');
+              it.textContent = String(c);
+              ul.appendChild(it);
+            });
+            box.appendChild(ul);
+            body.appendChild(box);
+          } else {
+            body.classList.add('pm-body-1');
+          }
+          li.appendChild(body);
           listEl.appendChild(li);
         });
         if (refresh) return;

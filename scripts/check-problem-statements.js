@@ -53,7 +53,12 @@ list.forEach((s, i) => {
   if (!s || typeof s !== 'object' || Array.isArray(s)) { problems.push(`${at} is not an object { ... }`); return; }
   if (!tracks.includes(s.track)) problems.push(`${at}: "track" is ${JSON.stringify(s.track)}, must be one of: ${tracks.join(', ')}`);
   if (typeof s.title !== 'string' || !s.title.trim()) problems.push(`${at}: needs a "title"`);
-  if (s.description !== undefined && typeof s.description !== 'string') problems.push(`${at}: "description" must be text in quotes`);
+  ['description', 'problem', 'explanation'].forEach(k => {
+    if (s[k] !== undefined && typeof s[k] !== 'string') problems.push(`${at}: "${k}" must be text in quotes`);
+  });
+  if (s.challenges !== undefined && !(Array.isArray(s.challenges) && s.challenges.every(c => typeof c === 'string' && c.trim()))) {
+    problems.push(`${at}: "challenges" must be a list of text items: [ "first", "second" ]`);
+  }
   if (s.additional !== undefined && typeof s.additional !== 'boolean') problems.push(`${at}: "additional" must be true or false (no quotes)`);
   if (s.code !== undefined) {
     if (typeof s.code !== 'string' || !s.code.trim()) problems.push(`${at}: "code" must be text in quotes`);

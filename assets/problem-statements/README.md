@@ -41,13 +41,15 @@ already on the page see them within about 2 minutes.
   "statements": [
     {
       "track": "ai-ml",
-      "code": "HX-AI-01",
+      "code": "AI-01",
       "title": "Short title of the problem",
-      "description": "Full text of the problem.\n\nA blank line like this starts a new paragraph."
+      "problem": "The problem statement.",
+      "explanation": "More detail.\n\nA blank line like this starts a new paragraph.",
+      "challenges": ["First key challenge", "Second key challenge"]
     },
     {
       "track": "web3",
-      "code": "HX-W3-04",
+      "code": "W3-03",
       "title": "An additional statement released at 6:15 PM",
       "description": "Full text.",
       "additional": true
@@ -58,10 +60,13 @@ already on the page see them within about 2 minutes.
 
 | Field | Needed? | What it is |
 |---|---|---|
-| `track` | yes | One of: `ai-ml`, `web3`, `climate`, `health`, `smart-cities`, `open-innovation` |
+| `track` | yes | One of: `ai-ml`, `web3`, `climate`, `health`, `smart-cities`, `hardware` |
 | `title` | yes | The problem statement's title |
-| `description` | no | Full text. Use `\n\n` for a new paragraph |
-| `code` | no | A short ID shown on the statement, e.g. `HX-AI-01` (must be unique) |
+| `problem` | no | The problem statement (shown under "Problem statement") |
+| `explanation` | no | Extra detail (shown under "Explanation"). Use `\n\n` for a new paragraph |
+| `challenges` | no | List of key challenges, shown as bullets in a side box |
+| `description` | no | Plain text instead of the sections above |
+| `code` | no | A short ID shown on the statement, e.g. `AI-01` (must be unique) |
 | `additional` | no | `true` for the 6:15 PM statements (no quotes around `true`) |
 
 A track with no statements in the file stays as a normal card.
