@@ -1,0 +1,165 @@
+{
+  "phase2": [
+    {
+      "code": "AI-01",
+      "summary": "Make the detector work on real phone calls, including partly faked speech.",
+      "requirements": [
+        "Report EER after 8 kHz resampling, two codecs and added noise (worst case at most 2.5× clean EER).",
+        "Build 100 partial fakes and locate the synthetic segments (F1 at 0.5-second resolution).",
+        "In streaming mode, update the score every 500 ms during a call.",
+        "Keep Phase 1 EERs within 2 points."
+      ]
+    },
+    {
+      "code": "AI-02",
+      "summary": "Make the agent safe for an organization: permissions, follow-ups and schema changes.",
+      "requirements": [
+        "Define three roles with row and column limits; 30+ attack questions, zero leaks.",
+        "Ignore instructions planted in data values.",
+        "Answer three-turn follow-ups (“now only for 2023”); report on a 50-conversation test set.",
+        "Recover after tables are renamed or split, without retraining; report accuracy before and after.",
+        "Ask a clarifying question when a question is ambiguous instead of guessing."
+      ]
+    },
+    {
+      "code": "AI-03",
+      "summary": "Keep the knowledge base trustworthy as documents change, conflict or mislead.",
+      "requirements": [
+        "Ingest 500+ documents; report ingestion time and graph size.",
+        "Add, edit or delete a document without a rebuild; the graph updates within 60 seconds.",
+        "When two documents contradict, show both claims with their sources instead of picking one.",
+        "Ignore instructions hidden in document text (20+ planted injections).",
+        "Answer Hindi questions over English documents, still showing the supporting graph path.",
+        "Keep Phase 1 answer quality within 3 points."
+      ]
+    },
+    {
+      "code": "AI-04",
+      "summary": "Make the evaluator itself trustworthy, and able to diagnose more kinds of failure.",
+      "requirements": [
+        "Hand-label 150+ question-answer pairs (two people agree); report agreement with the pipeline.",
+        "Diagnose 5+ failure types (e.g. wrong chunk, ignored context, stale source) with a confusion matrix.",
+        "Compare two RAG versions on the same questions and flag meaningful regressions.",
+        "Scores must stay stable when the judge model is swapped or answers are shuffled.",
+        "Evaluate 200 questions in 15 minutes or less."
+      ]
+    },
+    {
+      "code": "W3-01",
+      "summary": "Make the credentials safe at scale: private revocation and one claim per person.",
+      "requirements": [
+        "Prove non-revocation against a list of 100,000 revoked IDs.",
+        "Block a second claim on the same scheme; claims on two schemes must be unlinkable.",
+        "Prove in 30 seconds or less on a mid-range Android phone (state the model).",
+        "Write a short threat model covering a malicious issuer, verifier and holder."
+      ]
+    },
+    {
+      "code": "W3-02",
+      "summary": "Assume the agent is hijacked: contain it, detect it, and let the owner recover.",
+      "requirements": [
+        "Script 5+ hijack attacks; losses must never exceed the daily limit.",
+        "Freeze the agent automatically on unusual spending; report detection rate and false freezes.",
+        "Recover with 3 of 5 guardians after a 48-hour delay, with an owner veto.",
+        "Sponsor gas with a per-agent quota that spam cannot drain.",
+        "Fuzz the invariant: funds move only with valid owner, in-policy agent or recovery approval."
+      ]
+    },
+    {
+      "code": "CL-01",
+      "summary": "Turn the system into a monthly alert service that keeps working through the monsoon.",
+      "requirements": [
+        "Issue monthly alerts for a full year in the held-out state, including monsoon months.",
+        "Add radar (Sentinel-1) and show the gain during monsoon months.",
+        "Estimate the date of loss; report median error against public alert dates.",
+        "Rank alerts and report precision of the top 50 (field teams visit about 50 sites a month).",
+        "Keep Phase 1 F1 within 5 points."
+      ]
+    },
+    {
+      "code": "CL-02",
+      "summary": "Make the estimate audit-ready: better data, cleaner records, focused review.",
+      "requirements": [
+        "Use emissions intensity from 20+ suppliers' published reports; flag implausible values.",
+        "Detect refunds, negative adjustments and duplicates; report their effect on the total.",
+        "Rank lines by contribution to uncertainty; show the interval narrow when the top 5% are reviewed.",
+        "Compare departments and years with intervals, and say which differences are real."
+      ]
+    },
+    {
+      "code": "CL-03",
+      "summary": "Move from predicting consumption to guiding retrofits.",
+      "requirements": [
+        "Test on buildings from a site or climate not used in training; report error against Phase 1.",
+        "Forecast next-day hourly consumption; report error by horizon.",
+        "Give 80% prediction ranges and report how often the true value falls inside.",
+        "Rank the 20 most wasteful buildings and estimate savings for two retrofits.",
+        "Detect faulty meter readings and show how removing them changes accuracy."
+      ]
+    },
+    {
+      "code": "CL-04",
+      "summary": "Turn the MATLAB model into a tool a facilities manager could use.",
+      "requirements": [
+        "Test on unseen buildings; compare 3+ model types and report error against Phase 1.",
+        "Report accuracy with 10%, 20% and 30% of inputs missing.",
+        "Explain each prediction with feature importance or a similar method.",
+        "Build a MATLAB app or Live Script: load a new building file, get prediction and explanation.",
+        "Publish the code and present in 5 minutes, following the MathWorks rubric."
+      ]
+    },
+    {
+      "code": "HM-01",
+      "summary": "Add an evidence assistant that checks scientific claims about molecules.",
+      "requirements": [
+        "Split each claim into statements; label supported, contradicted, insufficient evidence or out of scope.",
+        "Cite a specific assay record, paper passage or run record for every verdict.",
+        "Never call an activity claim supported from computed properties alone; exclude retracted papers.",
+        "Show disagreements between assays; abstain when evidence is weak and report accuracy by confidence.",
+        "Beat a retrieval-plus-LLM baseline on your 150-claim set using an open model of 8B or fewer.",
+        "Label all output as a research aid, not a prediction of efficacy or safety."
+      ]
+    },
+    {
+      "code": "HM-02",
+      "summary": "Check a patient's whole history across several doctors, not one prescription.",
+      "requirements": [
+        "Merge prescriptions from three doctors into one timeline; flag overlaps and cross-doctor duplicates.",
+        "Re-check doses when a new kidney-function value arrives.",
+        "Mark unknown brands as unverified, or propose a likely composition with confidence.",
+        "Rank alerts by severity so the most urgent appear first."
+      ]
+    },
+    {
+      "code": "SC-01",
+      "summary": "Keep it working at night and when a camera fails, with privacy-safe output.",
+      "requirements": [
+        "Report IDF1 and flow error on night footage.",
+        "Estimate flows through one camera switched off; report the error.",
+        "Add a new camera with no labels; report performance.",
+        "Release flows only as totals (minimum group size of 10, or differential privacy)."
+      ]
+    },
+    {
+      "code": "SC-02",
+      "summary": "Handle barriers that come and go, different users, and honest confidence.",
+      "requirements": [
+        "Accept user photo reports and update barriers within a minute; expire temporary barriers.",
+        "Support 3+ user profiles (e.g. wheelchair, blind, elderly) with different route costs.",
+        "Give each route a confidence score based on image age and coverage.",
+        "Report how many route segments have no recent imagery."
+      ]
+    },
+    {
+      "code": "HW-01",
+      "summary": "Take the prototype out of the lab and prove it works for a real user.",
+      "requirements": [
+        "Run continuously for 72+ hours in its real setting; report uptime and every failure.",
+        "Measure power use or cost per unit; justify one design change that improves it.",
+        "Survive 3 deliberate faults (power loss, sensor failure, lost connection) without a manual reset.",
+        "Test with 5+ real users or one real site; report what changed.",
+        "Secure any wireless link or stored data; publish a bill of materials with unit cost."
+      ]
+    }
+  ]
+}

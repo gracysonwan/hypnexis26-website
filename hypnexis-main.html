@@ -1471,6 +1471,33 @@
       margin-top: 10px;
     }
 
+    /* Phase 2 extension block inside a statement */
+    .pm-p2 {
+      margin: 4px 0 18px;
+      padding: 16px 18px 14px;
+      background: linear-gradient(135deg, rgba(20, 120, 110, .22), rgba(20, 60, 160, .22));
+      border: 1px solid rgba(111, 255, 210, .45);
+      box-shadow: 0 0 26px rgba(111, 255, 210, .08);
+    }
+
+    .pm-p2 .pm-label {
+      color: #6fffd2;
+      margin-top: 0;
+    }
+
+    .pm-p2-sum {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.6;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .pm-p2 .pm-chal li::before {
+      background: #6fffd2;
+      box-shadow: 0 0 8px rgba(111, 255, 210, .8);
+    }
+
     .pm-body {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 230px;
@@ -2069,7 +2096,7 @@
 
         <div class="ps-next" id="psExtra" data-state="locked" hidden>
           <div>
-            <div class="ps-next-name">Additional Problem Statements</div>
+            <div class="ps-next-name">Phase 2 Problem Statements</div>
             <div class="ps-next-when" data-ps-when>24 Oct 2026 · 6:15 PM IST</div>
           </div>
           <div class="ps-next-side">
@@ -3100,13 +3127,17 @@
        ► PS_RELEASES  : release times (IST). Before a time passes nothing
                         from that release is shown, even if the file has it.
                         The first entry is the main countdown card; the
-                        second is the 6:15 PM "Additional" slot, filled by
-                        statements marked "additional": true in the file.
+                        second is the 6:15 PM Phase 2 slot.
+       ► PS_PHASE2_FILE : Phase 2 extensions, one per statement (matched by
+                        "code"). The page doesn't even request it before the
+                        Phase 2 time; after that each statement shows its
+                        Phase 2 extension above the Phase 1 text.
     ==================================================== */
     var PS_DATA_FILE = 'assets/problem-statements/problem-statements.json';
+    var PS_PHASE2_FILE = 'assets/problem-statements/phase2.json';
     var PS_RELEASES = [
       { id: 'psMain', at: '2026-10-24T11:30:00+05:30', when: '24 Oct 2026 · 11:30 AM IST' },
-      { id: 'psExtra', at: '2026-10-24T18:15:00+05:30', when: '24 Oct 2026 · 6:15 PM IST', additional: true }
+      { id: 'psExtra', at: '2026-10-24T18:15:00+05:30', when: '24 Oct 2026 · 6:15 PM IST', phase2: true }
     ];
     // Heading + intro text for each state of the main card.
     var PS_COPY = {
@@ -3121,6 +3152,10 @@
       live: {
         h: 'Now <em>Live</em>',
         p: "The HYPNEXIS '26 problem statements are out. Open any track below to read its problem statements."
+      },
+      phase2: {
+        h: 'Phase 2 <em>Live</em>',
+        p: "Phase 2 is out. Every problem statement now has a Phase 2 extension. Open any track below to read them."
       }
     };
 
@@ -3137,6 +3172,8 @@
       var all = null;          // every valid statement in the file, once loaded
       var rawSeen = '';        // last file contents, to skip needless re-renders
       var fetching = false, lastFetch = 0;
+      var p2 = null;           // Phase 2 extensions by statement code, once loaded
+      var p2Raw = '', p2Fetching = false, p2LastFetch = 0;
 
       function each(root, sel, fn) { Array.prototype.forEach.call(root.querySelectorAll(sel), fn); }
       function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -3178,6 +3215,39 @@
           .then(function () { fetching = false; tick(); });
       }
 
+      // Phase 2 extension for a statement, only once its time has come.
+      function ext(s, now) {
+        if (!p2 || !extra || (now || Date.now()) < extra.time || !s || !s.code) return null;
+        return p2[s.code] || null;
+      }
+      function p2Count(now) {
+        return visible(now).filter(function (s) { return !s.additional && ext(s, now); }).length;
+      }
+
+      function loadPhase2() {
+        if (p2Fetching || !window.fetch) return;
+        p2Fetching = true;
+        p2LastFetch = Date.now();
+        fetch(PS_PHASE2_FILE + '?t=' + Date.now(), { cache: 'no-store' })
+          .then(function (res) { return res.ok ? res.text() : null; })
+          .then(function (txt) {
+            if (txt === null || txt === p2Raw) return;
+            var j = JSON.parse(txt);
+            var list = Array.isArray(j) ? j : (j && j.phase2);
+            if (!Array.isArray(list)) throw new Error('no "phase2" list');
+            var map = {};
+            list.forEach(function (e) {
+              if (e && typeof e.code === 'string' && (e.summary || (e.requirements && e.requirements.length))) map[e.code] = e;
+            });
+            p2 = map;
+            p2Raw = txt;
+            renderTracks();
+            if (pmKey) openTrack(pmKey, true);
+          })
+          .catch(function (err) { if (window.console) console.warn('Phase 2 file not readable yet:', err); })
+          .then(function () { p2Fetching = false; tick(); });
+      }
+
       function showCountdown(r, ms) {
         var s = Math.max(0, Math.floor(ms / 1000));
         var d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
@@ -3204,6 +3274,7 @@
           var key = card.getAttribute('data-track');
           var mine = list.filter(function (s) { return s.track === key; });
           var fresh = mine.filter(function (s) { return s.additional; }).length;
+          var p2n = mine.filter(function (s) { return ext(s, now); }).length;
           var more = card.querySelector('.tc-more');
           if (!mine.length) {
             card.classList.remove('tc-open');
@@ -3231,6 +3302,12 @@
             nw.textContent = fresh + ' NEW';
             more.appendChild(nw);
           }
+          if (p2n) {
+            var ph = document.createElement('span');
+            ph.className = 'tc-new';
+            ph.textContent = 'PHASE 2';
+            more.appendChild(ph);
+          }
           var arrow = document.createElement('span');
           arrow.className = 'tc-arrow';
           arrow.setAttribute('aria-hidden', 'true');
@@ -3240,9 +3317,10 @@
         if (noteEl && noteTxt) {
           var open = cards.some(function (c) { return c.classList.contains('tc-open'); });
           noteEl.classList.toggle('is-live', open);
-          noteTxt.textContent = open
-            ? 'Problem statements are live · open a track to read them'
-            : 'Problem statements unlock here · 24 Oct · 11:30 AM IST';
+          noteTxt.textContent = !open
+            ? 'Problem statements unlock here · 24 Oct · 11:30 AM IST'
+            : (p2Count(now) ? 'Phase 2 is live · open a track to see each extension'
+              : 'Problem statements are live · open a track to read them');
         }
       }
 
@@ -3260,7 +3338,9 @@
         var num = card.querySelector('.tcn');
         document.getElementById('pmEye').textContent = 'Track ' + (num ? num.textContent : '');
         document.getElementById('pmTitle').textContent = trackName(card);
-        document.getElementById('pmSub').textContent = plural(mine.length, 'problem statement');
+        var now2 = Date.now();
+        var anyP2 = mine.some(function (s) { return ext(s, now2); });
+        document.getElementById('pmSub').textContent = plural(mine.length, 'problem statement') + (anyP2 ? ' · Phase 2 live' : '');
         var listEl = document.getElementById('pmList');
         listEl.textContent = '';
         mine.forEach(function (s) {
@@ -3280,11 +3360,43 @@
             nw.textContent = 'NEW · 6:15 PM';
             meta.appendChild(nw);
           }
+          var e2 = ext(s, now2);
+          if (e2) {
+            var pb = document.createElement('span');
+            pb.className = 'pm-new';
+            pb.textContent = 'PHASE 2';
+            meta.appendChild(pb);
+          }
           li.appendChild(meta);
           var t = document.createElement('h4');
           t.className = 'pm-ititle';
           t.textContent = s.title;
           li.appendChild(t);
+          if (e2) {
+            var p2box = document.createElement('div');
+            p2box.className = 'pm-p2';
+            var p2h = document.createElement('div');
+            p2h.className = 'pm-label';
+            p2h.textContent = 'Phase 2 extension';
+            p2box.appendChild(p2h);
+            if (e2.summary) {
+              var p2s = document.createElement('p');
+              p2s.className = 'pm-p2-sum';
+              p2s.textContent = String(e2.summary);
+              p2box.appendChild(p2s);
+            }
+            if (Array.isArray(e2.requirements) && e2.requirements.length) {
+              var p2l = document.createElement('ul');
+              p2l.className = 'pm-chal';
+              e2.requirements.forEach(function (r) {
+                var it = document.createElement('li');
+                it.textContent = String(r);
+                p2l.appendChild(it);
+              });
+              p2box.appendChild(p2l);
+            }
+            li.appendChild(p2box);
+          }
           var body = document.createElement('div');
           body.className = 'pm-body';
           var main = document.createElement('div');
@@ -3302,7 +3414,7 @@
               main.appendChild(d);
             });
           }
-          section('Problem statement', s.problem);
+          section(e2 ? 'Problem statement · Phase 1, unchanged' : 'Problem statement', s.problem);
           section('Explanation', s.explanation);
           if (s.description) section(s.problem || s.explanation ? 'Details' : '', s.description);
           body.appendChild(main);
@@ -3378,7 +3490,7 @@
         var list = visible(now);
         PS_RELEASES.forEach(function (r) {
           if (!r.el) return;
-          var has = list.some(function (s) { return !!s.additional === !!r.additional; });
+          var has = r.phase2 ? p2Count(now) > 0 : list.some(function (s) { return !s.additional; });
           var s = now < r.time ? 'locked' : (has ? 'live' : 'waiting');
           if (s !== r.state) {
             r.state = s;
@@ -3397,30 +3509,33 @@
           e.textContent = mainCount.length ? plural(mainCount.length, 'problem statement') + ' across ' + plural(Object.keys(tracks).length, 'track') : '';
         });
         if (extra && extra.el) {
-          var n = list.filter(function (s) { return s.additional; }).length;
-          each(extra.el, '[data-ps-total]', function (e) { e.textContent = n ? n + ' NEW' : ''; });
+          var n = p2Count(now);
+          each(extra.el, '[data-ps-total]', function (e) { e.textContent = n ? plural(n, 'extension').toUpperCase() : ''; });
           // The smaller slot appears once the main statements are out (or once
           // its own time arrives), so the countdown stays the focus.
           extra.el.hidden = !(main.state === 'live' || extra.state !== 'locked');
         }
 
-        if (main.state !== shownCopy && PS_COPY[main.state]) {
-          shownCopy = main.state;
-          if (headEl) headEl.innerHTML = PS_COPY[main.state].h;
-          if (introEl) introEl.textContent = PS_COPY[main.state].p;
+        var copyKey = (main.state === 'live' && extra && extra.state === 'live') ? 'phase2' : main.state;
+        if (copyKey !== shownCopy && PS_COPY[copyKey]) {
+          shownCopy = copyKey;
+          if (headEl) headEl.innerHTML = PS_COPY[copyKey].h;
+          if (introEl) introEl.textContent = PS_COPY[copyKey].p;
         }
 
         // Fetch the file: often while a release is waiting for it (every 15 s
         // for the first 10 minutes, then 45 s), and every 2 minutes after
         // that so later fixes and the 6:15 PM additions show up by themselves.
         if (now >= main.time && !document.hidden) {
-          var waiting = PS_RELEASES.filter(function (r) { return r.state === 'waiting'; });
           var gap = 120000;
-          if (waiting.length) {
-            var since = now - Math.max.apply(null, waiting.map(function (r) { return r.time; }));
-            gap = since < 600000 ? 15000 : 45000;
-          }
+          if (main.state === 'waiting') gap = now - main.time < 600000 ? 15000 : 45000;
           if (now - lastFetch >= gap) load();
+        }
+        // Phase 2 file: never requested before its time; then the same rhythm.
+        if (extra && now >= extra.time && !document.hidden) {
+          var gap2 = 120000;
+          if (extra.state === 'waiting') gap2 = now - extra.time < 600000 ? 15000 : 45000;
+          if (now - p2LastFetch >= gap2) loadPhase2();
         }
       }
 

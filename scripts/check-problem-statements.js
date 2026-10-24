@@ -79,3 +79,39 @@ const summary = tracks.map(t => {
   return `${t}: ${main}${extra ? ` + ${extra} additional` : ''}`;
 }).join(' · ');
 console.log(`✓ ${REL} is valid — ${list.length} statement(s). ${summary}`);
+
+// ---- Phase 2 extensions (assets/problem-statements/phase2.json) ----
+const P2 = path.join(ROOT, 'assets', 'problem-statements', 'phase2.json');
+const P2REL = path.relative(ROOT, P2);
+if (!fs.existsSync(P2)) {
+  console.log(`✓ ${P2REL} not uploaded yet — nothing to check.`);
+} else {
+  let p2;
+  try {
+    p2 = JSON.parse(fs.readFileSync(P2, 'utf8'));
+  } catch (err) {
+    console.error(`✖ ${P2REL} is not valid JSON: ${err.message}`);
+    process.exit(1);
+  }
+  const ext = Array.isArray(p2) ? p2 : p2 && p2.phase2;
+  const bad = [];
+  if (!Array.isArray(ext) || !ext.length) bad.push('must contain a non-empty "phase2" list: { "phase2": [ ... ] }');
+  const seen = new Set();
+  (ext || []).forEach((e, i) => {
+    const at = `extension #${i + 1}${e && e.code ? ` (${e.code})` : ''}`;
+    if (!e || typeof e !== 'object') { bad.push(`${at} is not an object`); return; }
+    if (!codes.has(e.code)) bad.push(`${at}: "code" ${JSON.stringify(e.code)} doesn't match any statement in problem-statements.json`);
+    if (seen.has(e.code)) bad.push(`${at}: code used twice`);
+    seen.add(e.code);
+    if (typeof e.summary !== 'string' || !e.summary.trim()) bad.push(`${at}: needs a "summary"`);
+    if (!Array.isArray(e.requirements) || !e.requirements.length || !e.requirements.every(r => typeof r === 'string' && r.trim())) {
+      bad.push(`${at}: "requirements" must be a list of text items`);
+    }
+  });
+  if (bad.length) {
+    console.error(`✖ ${P2REL} has ${bad.length} problem(s):`);
+    bad.forEach(p => console.error('  - ' + p));
+    process.exit(1);
+  }
+  console.log(`✓ ${P2REL} is valid — ${ext.length} extension(s), every code matches a statement.`);
+}

@@ -73,3 +73,26 @@ A track with no statements in the file stays as a normal card.
 
 To change a release time, edit `PS_RELEASES` near the bottom of
 `hypnexis-main.html`.
+
+## Phase 2 extensions (6:15 PM)
+
+Phase 2 lives in its own file in this folder: `phase2.json`. The page never
+requests it before the Phase 2 time set in `PS_RELEASES` (24 Oct, 6:15 PM
+IST). After that, every statement whose `code` has an extension shows a
+highlighted **Phase 2 extension** block above its Phase 1 text, track cards
+get a **PHASE 2** badge, and the slot under the countdown goes live.
+
+```json
+{
+  "phase2": [
+    {
+      "code": "AI-01",
+      "summary": "One-line goal of the extension.",
+      "requirements": ["First requirement", "Second requirement"]
+    }
+  ]
+}
+```
+
+Every `code` must match a statement in `problem-statements.json`; the
+checks fail the pull request otherwise.
