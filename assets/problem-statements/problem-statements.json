@@ -1,0 +1,193 @@
+{
+  "statements": [
+    {
+      "track": "ai-ml",
+      "code": "AI-01",
+      "title": "Voice-Clone Detection for Phone Scams",
+      "problem": "Scammers can clone the voice of a relative or bank officer from just a few seconds of audio. Build a detector that decides whether a 2–10 second speech clip is genuine or synthetic, and keeps working on voice-cloning tools never seen during training.",
+      "explanation": "A detector trained on known generators may learn their specific traits and fail on new ones, so generalisation is the central challenge.\n\nThe ASVspoof 2019 evaluation set (mostly unseen attack systems) and the In-the-Wild dataset (real deepfakes of public figures) can both test generalisation. Pretrained self-supervised speech models are allowed.",
+      "challenges": [
+        "Generalising to previously unseen voice generators",
+        "Detecting synthetic speech from short clips with limited evidence",
+        "Handling variations across languages and speakers",
+        "Avoiding misleading shortcuts such as silence duration or loudness"
+      ]
+    },
+    {
+      "track": "ai-ml",
+      "code": "AI-02",
+      "title": "Data-Analyst Agent on Messy Databases",
+      "problem": "Business users ask plain-English questions such as “Which schools had falling enrolment last year?” Build an agent that explores a database, writes and executes SQL, checks its results, and returns the correct answer or acknowledges that it cannot answer.",
+      "explanation": "Real databases have cryptic column names, dirty values (“N/A”, mixed date formats), duplicated information and unstated business rules. A plausible but wrong answer is worse than none, so the agent must validate queries with row counts, value checks and similar methods.\n\nThe BIRD benchmark scores answers on execution results. Restriction: only open-weight models with 8 billion parameters or fewer.",
+      "challenges": [
+        "Identifying the correct tables and columns",
+        "Handling dirty values and external knowledge",
+        "Checking results before answering",
+        "Recognising questions the data cannot answer"
+      ]
+    },
+    {
+      "track": "ai-ml",
+      "code": "AI-03",
+      "title": "Interactive Knowledge Base — Topic-Augmented Knowledge Graph Builder",
+      "problem": "Vector search struggles with broad questions (“What are the main themes across these documents?”) and with chains of related facts. Build a system that ingests unstructured documents (PDFs, text), extracts entities, groups them into themes, maps their connections in a knowledge graph, and uses a query router to answer both thematic and specific factual questions.",
+      "explanation": "Deliverables: (1) ingestion pipeline extracting topics and triples; (2) embedded graph database (e.g. Neo4j) alongside a vector database (e.g. ChromaDB); (3) hybrid retrieval routing between topic communities and local graph relationships; (4) grounded answer generator; (5) split-screen Streamlit or React app.\n\nLeft: document uploader and chat box. Right: interactive, clickable node-link graph (pyvis, react-force-graph) that zooms to and highlights the topic cluster, documents and relationship paths.",
+      "challenges": [
+        "Accurately extracting entities and relationships from text",
+        "Grouping entities into meaningful themes and communities",
+        "Routing questions to thematic or local factual retrieval",
+        "Showing the exact graph path supporting every answer"
+      ]
+    },
+    {
+      "track": "ai-ml",
+      "code": "AI-04",
+      "title": "RAG Evaluation Pipeline — Retriever and Generator Tested Apart",
+      "problem": "Build an automated pipeline that evaluates a Retrieval-Augmented Generation system by separating retrieval from answer generation. It must show whether a wrong response came from retrieving the wrong chunks or from the model hallucinating despite relevant context.",
+      "explanation": "Retriever and generator are evaluated independently, and the full system end to end. Deliverables: (1) scoring backend for context relevance, faithfulness and answer accuracy; (2) synthetic test-question generator from uploaded documents; (3) automated root-cause report for each failure; (4) clean single-screen dashboard.\n\nUsers upload documents or enter a query, inspect retrieved text beside the final answer, and view colour-coded scorecards: green for accurate, red for hallucinated or missing information.",
+      "challenges": [
+        "Evaluating retriever and generator independently and end to end",
+        "Generating realistic synthetic questions with known answers",
+        "Distinguishing retrieval failures from hallucinations",
+        "Presenting the diagnosis clearly on a single screen"
+      ]
+    },
+    {
+      "track": "web3",
+      "code": "W3-01",
+      "title": "Zero-Knowledge Eligibility Credentials",
+      "problem": "Services often demand a full identity document to prove one fact, such as being over 18, living in a particular state, or having family income below a scholarship limit. Build a system where an issuer signs a credential and the holder proves a specific fact about it to a smart contract using zero-knowledge proofs, revealing nothing else.",
+      "explanation": "The circuit, built with Circom, Noir or a similar framework, must verify the issuer's signature and the eligibility condition inside the proof. ZK-friendly signatures and hash functions can speed up proof generation.\n\nAn under-constrained signal is a common vulnerability: it can let someone forge a proof that still passes verification. Open-source circuit libraries may be used.",
+      "challenges": [
+        "Ensuring every signal is fully constrained",
+        "Verifying a signature inside the circuit",
+        "Making proof generation fast enough for a browser"
+      ]
+    },
+    {
+      "track": "web3",
+      "code": "W3-02",
+      "title": "Agent Wallet — Letting AI Agents Pay Safely",
+      "problem": "AI agents increasingly buy things for users: API credits, tickets, groceries. Build an ERC-4337 account-abstraction smart-contract wallet that gives an AI agent a key able to spend only within an owner-defined policy.",
+      "explanation": "The agent's key might leak, or a malicious webpage might manipulate the agent. The wallet's policies must hold even if the agent misbehaves.\n\nPolicies must cover: allowed contracts and functions; per-transaction limits; daily limits; allowed recipients; permission expiry; and owner approval for transactions outside the policy. The agent can be any open model or a scripted bot.",
+      "challenges": [
+        "Correctly validating signatures, nonces and chain IDs",
+        "Expressing policies precisely",
+        "Requiring owner approval for out-of-policy requests"
+      ]
+    },
+    {
+      "track": "climate",
+      "code": "CL-01",
+      "title": "Satellite Forest-Loss Alerts",
+      "problem": "Forest clearing for mining, roads and agriculture often goes unnoticed until it is too late. Using Sentinel-2 imagery, build a system that identifies where forest loss occurred in India between two dates, despite clouds and seasonal changes.",
+      "explanation": "Sentinel-2 offers 10 m imagery every few days, but monsoon clouds hide large areas, and leaf fall, harvesting and river changes can look like forest loss.\n\nPublic forest-loss maps are coarser (30 m) and may lag by a year, so they can serve only as imperfect training labels. Teams choose their own training regions and must test on a state not included in training.",
+      "challenges": [
+        "Masking clouds and shadows",
+        "Separating seasonal changes from actual forest loss",
+        "Learning from coarse and noisy labels"
+      ]
+    },
+    {
+      "track": "climate",
+      "code": "CL-02",
+      "title": "Scope 3 Emissions from Public Spending Records",
+      "problem": "Organisations increasingly must report the emissions embedded in their purchases, often the largest part of their footprint. Using real, published spending records, map each line to an emission factor and estimate a department's purchasing carbon footprint while honestly representing uncertainty.",
+      "explanation": "Records contain short, inconsistent descriptions (“IT hardware”, “prof svcs”, “Facilities mgmt”) with supplier names and amounts. Each must be classified into a product or industry category, converted to the factor's currency and base year, and matched to an appropriate factor.\n\nTeams must hand-label at least 2,000 spending lines, with two people agreeing on every label, to measure classification accuracy.",
+      "challenges": [
+        "Classifying short, noisy descriptions into hundreds of categories",
+        "Adjusting for currency differences and inflation",
+        "Propagating uncertainty to the total emissions estimate"
+      ]
+    },
+    {
+      "track": "climate",
+      "code": "CL-03",
+      "title": "Predicting Energy Consumption for a Building",
+      "problem": "Build an AI model that predicts a building's energy consumption from its characteristics, local weather and other information. Use the predictions to identify buildings that consume or may be wasting the most energy and are strong candidates for retrofitting.",
+      "explanation": "Consumption depends on size, age, purpose, occupancy and weather. A model that memorises training buildings is not useful, so it must be tested on buildings it has never seen.\n\nStart from the MathWorks challenge repository (MATLAB code, sample data, rubric) or public datasets such as Building Data Genome Project 2 and ASHRAE Great Energy Predictor III, plus public weather archives. Predictions should indicate reliability and explain the drivers.",
+      "challenges": [
+        "Generalising to buildings not seen during training",
+        "Combining building traits with weather and time-of-day effects",
+        "Handling missing and noisy meter readings",
+        "Explaining drivers of consumption and identifying likely waste"
+      ]
+    },
+    {
+      "track": "climate",
+      "code": "CL-04",
+      "title": "MathWorks Challenge — Predicting Building Energy Consumption with MATLAB",
+      "problem": "Buildings are major contributors to global energy use and carbon emissions. Develop a machine learning algorithm in MATLAB that predicts how much energy a building will consume from its characteristics, local weather data and other information, so that buildings using or wasting the most energy can be identified as retrofit candidates.",
+      "explanation": "Teams work with the MathWorks challenge repository: a sample training dataset and a starter MATLAB Live Script (Building Regression Models). Teams decide how to process the data, how to split it for training, test and validation, and which model types to train.\n\nSubmission: a 5-minute presentation (video, slides or write-up) and a link to code in a public repository. Judged on the MathWorks rubric: Solution Quality 70 (data mastery 20, use of machine learning 20, functionality 10, MATLAB proficiency 10, …).",
+      "challenges": [
+        "Making informed choices to clean, process and split the data",
+        "Justifying algorithm choices and iterating to show useful accuracy",
+        "Delivering error-free, readable and well-organised MATLAB code",
+        "Presenting the results creatively in a 5-minute submission"
+      ]
+    },
+    {
+      "track": "health",
+      "code": "HM-01",
+      "title": "ProvenanceLab — Reproducible Molecule Analysis with Evidence Checks",
+      "problem": "How might we help biotechnology students analyse and compare molecules reproducibly while clearly identifying invalid inputs and missing evidence? Build a pipeline that validates molecular inputs precisely, computes and compares properties, never silently fills missing values, and can reproduce any previous run exactly.",
+      "explanation": "SMILES copied from papers may be broken (impossible valence), ambiguous (missing stereochemistry) or different forms of the same molecule (salts, charged forms, tautomers). Toolkit and library versions can give different property values, and spreadsheets may fill gaps silently.\n\nTeams must download frozen PubChem and ChEMBL snapshots so analyses don't depend on live services, and build their own test set of broken and challenging inputs.",
+      "challenges": [
+        "Classifying invalid inputs precisely, not just “invalid”",
+        "Determining when two inputs are the same molecule",
+        "Producing identical results across reruns and machines",
+        "Distinguishing “not computed”, “not available” and “not applicable”"
+      ]
+    },
+    {
+      "track": "health",
+      "code": "HM-02",
+      "title": "Prescription Safety Checker for Indian Brand Medicines",
+      "problem": "Indian prescriptions use brand names, combination products and abbreviations that can hide drug interactions and dosage errors. Build a checker that reads a typed prescription, identifies each brand's active ingredients and strengths, and flags interactions, duplicate ingredients and potentially excessive doses.",
+      "explanation": "Different brands can share an ingredient, and combinations can hide duplication, such as two brands that both contain paracetamol. Frequencies use abbreviations like OD, BD, TDS and SOS. Safe doses depend on age, weight and kidney function.\n\nToo many minor alerts cause alert fatigue, so users ignore important warnings. Teams must build their test set with help from a pharmacist or pharmacy student.",
+      "challenges": [
+        "Resolving misspelled medicine brand names",
+        "Identifying all ingredients in combination products",
+        "Applying patient-specific dosage limits",
+        "Reducing alert fatigue"
+      ]
+    },
+    {
+      "track": "smart-cities",
+      "code": "SC-01",
+      "title": "Multi-Camera Vehicle Re-Identification",
+      "problem": "Cities plan roads and public transport using outdated surveys of where journeys begin and end. Using footage from multiple non-overlapping cameras, detect, track and re-identify vehicles across cameras to estimate traffic flows between them, without reading number plates.",
+      "explanation": "Number-plate recognition is prohibited, so vehicles must be matched by visual appearance. Indian traffic is dense and mixed (two-wheelers, autorickshaws, buses, cars), with heavy occlusion and many near-identical vehicles.\n\nCameras differ in viewing angle and lighting. Travel time between cameras helps decide which matches are plausible.",
+      "challenges": [
+        "Tracking vehicles in dense, mixed traffic",
+        "Handling appearance changes between cameras",
+        "Distinguishing nearly identical vehicles"
+      ]
+    },
+    {
+      "track": "smart-cities",
+      "code": "SC-02",
+      "title": "Accessible Walking Routes from Street Imagery",
+      "problem": "Navigation apps sometimes send wheelchair users onto footpaths with steps, broken surfaces and missing ramps. Build a system that detects accessibility barriers in street-level images, maps them to the correct footpath segments, and plans routes that avoid them.",
+      "explanation": "Barriers include missing kerb ramps, steps and stairs, broken or missing footpaths, poles obstructing movement, and parked vehicles blocking footpaths. Detections must be matched to the correct segment of the footpath network.\n\nProject Sidewalk provides labelled examples from other countries, but Indian streets differ, so teams must label their own local images as well.",
+      "challenges": [
+        "Detecting small barriers in varied street images",
+        "Matching detections to the correct map segments",
+        "Planning routes on footpath networks with barrier-related costs"
+      ]
+    },
+    {
+      "track": "hardware",
+      "code": "HW-01",
+      "title": "Open Innovation — Hardware",
+      "problem": "Choose a real problem of your own and solve it with a working hardware prototype. There is no fixed problem statement: teams define the problem, the users and the solution themselves, but the solution must be built around hardware.",
+      "explanation": "This is an open track for hardware only. Teams select their own sensors, microcontrollers, actuators and communication links, and build a physical prototype that can be demonstrated.\n\nSoftware-only solutions are not eligible; software should support the hardware, not replace it.",
+      "challenges": [
+        "Defining a real, well-scoped problem worth solving",
+        "Building a working physical prototype",
+        "Justifying hardware choices, including cost and power use",
+        "Testing the prototype under realistic conditions"
+      ]
+    }
+  ]
+}
